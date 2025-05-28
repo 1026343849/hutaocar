@@ -898,3 +898,91 @@ input[type="checkbox"] {
         line-height: 1.5; /* 增加行高 */
     }
 }
+
+/* 编辑按钮样式 */
+.edit-button {
+    padding: 5px 10px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.edit-button:hover {
+    background-color: #27ae60;
+}
+
+/* 编辑弹窗样式 */
+.edit-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 80%;
+    max-width: 500px;
+    z-index: 201;
+}
+
+.edit-popup input[type="text"],
+.edit-popup textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.edit-popup textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.edit-popup-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.edit-popup-buttons button {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.save-button {
+    background-color: #2ecc71;
+    color: white;
+}
+
+.save-button:hover {
+    background-color: #27ae60;
+}
+
+.cancel-edit-button {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.cancel-edit-button:hover {
+    background-color: #c0392b;
+}
+
+/* 响应式样式 */
+@media (max-width: 768px) {
+    .edit-popup {
+        width: 90%;
+        padding: 15px;
+    }
+}
