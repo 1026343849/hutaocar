@@ -222,6 +222,17 @@ ws.onmessage = (event) => {
             alert(`房间已创建！\n你需要为所有人抽取角色和事件\n点击对应的角色框可为没有的重新抽取\n房间代码：${currentRoomId}`);
             initialScreen.style.display = 'none';
             gameScreen.style.display = 'block';
+            // 显示房间代码
+            document.getElementById('roomCodeDisplay').textContent = `房间代码：${currentRoomId}`;
+            // 显示复制按钮
+            const copyBtn1 = document.getElementById('copyRoomCodeBtn');
+            copyBtn1.style.display = 'inline-block';
+            copyBtn1.onclick = function() {
+                navigator.clipboard.writeText(currentRoomId).then(() => {
+                    copyBtn1.textContent = '已复制';
+                    setTimeout(() => { copyBtn1.textContent = '复制'; }, 1000);
+                });
+            };
             break;
 
         case 'roomJoined':
@@ -229,6 +240,17 @@ ws.onmessage = (event) => {
             showTemporaryMessage('成功加入房间！地主会帮你完成所有操作，等着就行。'); // 使用临时提示框
             initialScreen.style.display = 'none';
             gameScreen.style.display = 'block';
+            // 显示房间代码
+            document.getElementById('roomCodeDisplay').textContent = `房间代码：${currentRoomId}`;
+            // 显示复制按钮
+            const copyBtn2 = document.getElementById('copyRoomCodeBtn');
+            copyBtn2.style.display = 'inline-block';
+            copyBtn2.onclick = function() {
+                navigator.clipboard.writeText(currentRoomId).then(() => {
+                    copyBtn2.textContent = '已复制';
+                    setTimeout(() => { copyBtn2.textContent = '复制'; }, 1000);
+                });
+            };
 
             // 隐藏按钮并禁用功能（加入房间的玩家）
             if (!isHost) {
