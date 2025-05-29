@@ -66,28 +66,28 @@ document.addEventListener('DOMContentLoaded', function () {
         joinGameButton.disabled = true;
     };
 
-    // 主持游戏
+    // 主持游戏（自定义弹窗方式，兼容移动端）
     hostGameButton.addEventListener('click', () => {
-        ws.send(JSON.stringify({ type: 'createRoom' }));
-        isHost = true;
+        const overlay = document.getElementById('hostRoomOverlay');
+        const popup = document.getElementById('hostRoomPopup');
+        const confirmBtn = document.getElementById('hostRoomConfirm');
+        const cancelBtn = document.getElementById('hostRoomCancel');
+        overlay.style.display = 'block';
+        popup.style.display = 'block';
 
-        if (timeCounter) {
-            timeCounter.style.display = 'block';
+        function closePopup() {
+            overlay.style.display = 'none';
+            popup.style.display = 'none';
         }
-    });
 
-    // 加入游戏
-    joinGameButton.addEventListener('click', () => {
-        // 只允许手动输入房间号，不自动读取localStorage，避免脏数据
-        let roomId = prompt('请输入地主提供的房间代码：');
-        if (roomId) {
-            localStorage.setItem('roomId', roomId); // 保存房间代码到 localStorage
-            ws.send(JSON.stringify({ type: 'joinRoom', roomId }));
-        }
-        isHost = false;
-        if (timeCounter) {
-            timeCounter.style.display = 'none';
-        }
+        confirmBtn.onclick = function() {
+            ws.send(JSON.stringify({ type: 'createRoom' }));
+            isHost = true;
+            if (timeCounter) timeCounter.style.display = 'block';
+            closePopup();
+        };
+        cancelBtn.onclick = closePopup;
+        overlay.onclick = closePopup;
     });
 
     // 同步数据函数
@@ -213,9 +213,9 @@ ws.onmessage = (event) => {
     switch (data.type) {
         case 'roomCreated':
             currentRoomId = data.roomId;
-            alert(`房间已创建！\n你需要为所有人抽取角色和事件\n点击对应的角色框可为没有的重新抽取\n房间代码：${currentRoomId}`);
             initialScreen.style.display = 'none';
             gameScreen.style.display = 'block';
+            showTemporaryMessage('房间已创建！你现在是地主，请为所有人抽取角色和事件');
             // 显示房间代码
             document.getElementById('roomCodeDisplay').textContent = `房间代码：${currentRoomId}`;
             // 显示复制按钮
@@ -227,6 +227,9 @@ ws.onmessage = (event) => {
                     setTimeout(() => { copyBtn1.textContent = '复制'; }, 1000);
                 });
             };
+            // 房间创建成功后，确保弹窗和遮罩隐藏
+            document.getElementById('hostRoomOverlay').style.display = 'none';
+            document.getElementById('hostRoomPopup').style.display = 'none';
             break;
 
         case 'roomJoined':
@@ -255,6 +258,12 @@ ws.onmessage = (event) => {
 
                 // 隐藏 BP 按钮
                 bpButton.style.display = 'none'; // 隐藏 BP 按钮
+
+                // 隐藏角色管理按钮
+                const characterManageButton = document.getElementById('characterManageButton');
+                if (characterManageButton) {
+                    characterManageButton.style.display = 'none';
+                }
 
                 // 禁用角色卡片单击事件
                 characterBoxes.forEach((box) => {
@@ -406,5 +415,37 @@ ws.onmessage = (event) => {
 
         // 禁用房间同步功能
         console.log('进入游戏主界面，但不进行多人游戏功能');
+    });
+
+    // 加入游戏（自定义弹窗方式，兼容移动端）
+    joinGameButton.addEventListener('click', () => {
+        const overlay = document.getElementById('joinRoomOverlay');
+        const popup = document.getElementById('joinRoomPopup');
+        const input = document.getElementById('joinRoomInput');
+        const confirmBtn = document.getElementById('joinRoomConfirm');
+        const cancelBtn = document.getElementById('joinRoomCancel');
+        input.value = '';
+        overlay.style.display = 'block';
+        popup.style.display = 'block';
+
+        function closePopup() {
+            overlay.style.display = 'none';
+            popup.style.display = 'none';
+        }
+
+        confirmBtn.onclick = function() {
+            const roomId = input.value.trim();
+            if (roomId) {
+                localStorage.setItem('roomId', roomId);
+                ws.send(JSON.stringify({ type: 'joinRoom', roomId }));
+                isHost = false;
+                if (timeCounter) timeCounter.style.display = 'none';
+                closePopup();
+            } else {
+                input.focus();
+            }
+        };
+        cancelBtn.onclick = closePopup;
+        overlay.onclick = closePopup;
     });
 });

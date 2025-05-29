@@ -1103,7 +1103,17 @@ input[type="checkbox"] {
     font-size: 14px;
     transition: all 0.3s;
     margin-left: 5px;
+    white-space: nowrap;
+    min-width: 48px;
+    box-sizing: border-box;
 }
 .delete-event-button:hover {
     background-color: #c0392b;
+}
+@media (max-width: 480px) {
+    .delete-event-button {
+        font-size: 13px;
+        padding: 5px 8px;
+        min-width: 40px;
+    }
 }

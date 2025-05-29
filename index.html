@@ -197,6 +197,27 @@
         </div>
     </div>
 
+    <!-- 加入房间自定义弹窗 -->
+    <div class="overlay" id="joinRoomOverlay" style="display: none;"></div>
+    <div class="event-popup" id="joinRoomPopup" style="display: none; max-width: 320px;">
+        <h3 style="text-align:center;">加入房间</h3>
+        <input id="joinRoomInput" type="text" placeholder="请输入房间代码" style="width:90%;margin:10px auto;display:block;padding:8px 10px;font-size:16px;">
+        <div style="display:flex;justify-content:center;gap:10px;margin-top:10px;">
+            <button id="joinRoomConfirm" class="start-button" style="padding:6px 20px;font-size:16px;">加入</button>
+            <button id="joinRoomCancel" class="start-button" style="background:#aaa;padding:6px 20px;font-size:16px;">取消</button>
+        </div>
+    </div>
+
+    <!-- 主持房间自定义弹窗 -->
+    <div class="overlay" id="hostRoomOverlay" style="display: none;"></div>
+    <div class="event-popup" id="hostRoomPopup" style="display: none; max-width: 320px;">
+        <h3 style="text-align:center;">主持房间</h3>
+        <div style="padding: 10px 0; text-align: center; color: #666; font-size: 15px;">点击下方按钮创建新房间，成为地主</div>
+        <div style="display:flex;justify-content:center;gap:10px;margin-top:10px;">
+            <button id="hostRoomConfirm" class="start-button" style="padding:6px 20px;font-size:16px;">创建</button>
+            <button id="hostRoomCancel" class="start-button" style="background:#aaa;padding:6px 20px;font-size:16px;">取消</button>
+        </div>
+    </div>
     <!-- 引入角色数据JS文件 -->
     <script src="characters.js"></script>
     <script src="npc.js"></script>
@@ -209,13 +230,13 @@
     <script src="hard-mission-app.js"></script>
 
     <!-- 页脚署名 -->
-    <footer class="footer">
-        <p>随机角色事件生成器 </p>
-        <p>原@虾仁不眨眼happy-car.netlify.app的个性化修改版 </p>
-        <p>修改部分纯AI写的屎山代码，有bug请憋着，唉嘿</p>
-        <p>服务端一直连接不上就是宕机了，也请憋着，嘿嘿</p>
-        <p>需要自定义事件,反馈bug等请 <a href="https://github.com/kunkun11451/unhappycar" target="_blank" style="color: blue; text-decoration: underline;">访问 GitHub 项目</a>查看</p>
-        <img src="https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png" style="width: auto; height: 8em;">
-    </footer>
 </body>
+<footer class="footer">
+    <p>随机角色事件生成器 </p>
+    <p>原@虾仁不眨眼happy-car.netlify.app的个性化修改版 </p>
+    <p>修改部分纯AI写的屎山代码，有bug请憋着，唉嘿</p>
+    <p>服务端一直连接不上就是宕机了，也请憋着，嘿嘿</p>
+    <p>需要自定义事件,反馈bug等请 <a href="https://github.com/kunkun11451/unhappycar" target="_blank" style="color: blue; text-decoration: underline;">访问 GitHub 项目</a>查看</p>
+    <img src="https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png" style="width: auto; height: 8em;">
+</footer>
 </html>
