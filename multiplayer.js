@@ -78,18 +78,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 加入游戏
     joinGameButton.addEventListener('click', () => {
-        let roomId = localStorage.getItem('roomId'); // 从 localStorage 获取房间代码
-        if (!roomId) {
-            roomId = prompt('请输入地主提供的房间代码：');
-            if (roomId) {
-                localStorage.setItem('roomId', roomId); // 保存房间代码到 localStorage
-            }
-        }
-
+        // 只允许手动输入房间号，不自动读取localStorage，避免脏数据
+        let roomId = prompt('请输入地主提供的房间代码：');
         if (roomId) {
+            localStorage.setItem('roomId', roomId); // 保存房间代码到 localStorage
             ws.send(JSON.stringify({ type: 'joinRoom', roomId }));
         }
-
         isHost = false;
         if (timeCounter) {
             timeCounter.style.display = 'none';
