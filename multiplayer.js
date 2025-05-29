@@ -315,6 +315,15 @@ ws.onmessage = (event) => {
             showPlayerCount(data.count);
             break;
 
+        case 'characterStates':
+            // 接收并应用角色状态更新
+            if (window.characterStates !== undefined) {
+                window.characterStates = data.states;
+                localStorage.setItem('characterStates', JSON.stringify(data.states));
+                console.log('已从主持人接收角色状态更新', data.states);
+            }
+            break;
+
         case 'updateState':
             console.log(`更新状态请求，房间ID: ${data.roomId}`);
             const updateRoom = rooms[data.roomId];

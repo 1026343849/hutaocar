@@ -37,6 +37,7 @@
         <h1>抽取角色</h1>
         <button class="bp-button" id="bpButton">BP模式：关闭</button>
         <button class="reset-button" id="resetButton" style="display: none;">重置游戏</button>
+        <button class="character-manage-button" id="characterManageButton">角色管理</button>
         <div class="container">
             <div class="character-box" id="box1">
                 <img class="character-image" src="" alt="" style="display: none;">
@@ -171,12 +172,28 @@
         </div>
     </div>
 
+    <!-- 角色管理弹窗 -->
+    <div class="overlay" id="characterOverlay" style="display: none;"></div>
+    <div class="event-popup" id="characterPopup" style="display: none;">
+        <button class="close-popup-button" id="closeCharacterPopup">✕</button>
+        <h3 style="text-align: center; margin-bottom: 20px;">角色管理</h3>
+        <div class="popup-content" id="charactersContent" style="display: block;">
+            <h6 style="font-size: 15px; color: gray; text-align: center; margin-bottom: 10px;">
+                禁用角色后将不会在抽取中出现。主持游戏时的更改会应用到所有人。
+            </h6>
+            <div id="charactersContainer" class="characters-grid">
+                <!-- 角色内容将通过 JavaScript 动态填充 -->
+            </div>
+        </div>
+    </div>
+
     <!-- 引入角色数据JS文件 -->
     <script src="characters.js"></script>
     <script src="npc.js"></script>
     <script src="mission.js"></script>
     <script src="hardmission.js"></script>
     <script src="multiplayer.js"></script>
+    <script src="character-manage.js"></script>
     <script src="app.js"></script>
     <script src="mission-app.js"></script>
     <script src="hard-mission-app.js"></script>

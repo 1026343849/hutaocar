@@ -562,7 +562,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // ================= 工具函数 =================
+    // 此函数将被character-manage.js覆盖
     function getCharacterKeys() {
+        if (window.characterStates) {
+            const allChars = Object.keys(characterData);
+            return allChars.filter(name => window.characterStates[name] !== false);
+        }
         return Object.keys(characterData);
     }
 
