@@ -6,12 +6,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const characterOverlay = document.getElementById('characterOverlay');
     const closeCharacterPopup = document.getElementById('closeCharacterPopup');
     const charactersContainer = document.getElementById('charactersContainer');
+    const elementFilter = document.getElementById('elementFilter');
+    const weaponFilter = document.getElementById('weaponFilter');
     
     // 存储角色启用状态的对象
     window.characterStates = JSON.parse(localStorage.getItem('characterStates')) || {};
     
     // 弹窗的显示与隐藏
     characterManageButton.addEventListener('click', () => {
+        initFilters();
         populateCharacters();
         characterPopup.style.display = 'block';
         characterOverlay.style.display = 'block';
@@ -27,13 +30,39 @@ document.addEventListener('DOMContentLoaded', function() {
         characterOverlay.style.display = 'none';
     });
     
+    // 初始化筛选下拉框
+    function initFilters() {
+        // 获取所有元素类型和武器类型
+        const elements = new Set();
+        const weapons = new Set();
+        Object.values(characterData).forEach(data => {
+            if (data.元素类型 && data.元素类型 !== 'undefined') elements.add(data.元素类型);
+            if (data.武器类型 && data.武器类型 !== 'undefined') weapons.add(data.武器类型);
+        });
+        // 元素类型下拉
+        elementFilter.innerHTML = '<option value="">全部元素</option>' +
+            Array.from(elements).map(e => `<option value="${e}">${e}</option>`).join('');
+        // 武器类型下拉
+        weaponFilter.innerHTML = '<option value="">全部武器</option>' +
+            Array.from(weapons).map(w => `<option value="${w}">${w}</option>`).join('');
+    }
+    
+    // 监听筛选变化
+    elementFilter.addEventListener('change', populateCharacters);
+    weaponFilter.addEventListener('change', populateCharacters);
+    
     // 填充角色列表
     function populateCharacters() {
         charactersContainer.innerHTML = '';
-        
+        const elementValue = elementFilter.value;
+        const weaponValue = weaponFilter.value;
         // 从characters.js中获取角色数据
-        const characters = Object.keys(characterData);
-        
+        const characters = Object.keys(characterData).filter(character => {
+            const data = characterData[character];
+            if (elementValue && data.元素类型 !== elementValue) return false;
+            if (weaponValue && data.武器类型 !== weaponValue) return false;
+            return true;
+        });
         characters.forEach(character => {
             const data = characterData[character];
             
