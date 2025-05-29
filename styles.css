@@ -1077,3 +1077,33 @@ input[type="checkbox"] {
         height: 60px;
     }
 }
+
+.add-event-button {
+    padding: 6px 18px;
+    font-size: 15px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: bold;
+    margin-left: 10px;
+}
+.add-event-button:hover {
+    background-color: #27ae60;
+}
+.delete-event-button {
+    padding: 5px 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    margin-left: 5px;
+}
+.delete-event-button:hover {
+    background-color: #c0392b;
+}

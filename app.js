@@ -420,8 +420,9 @@ document.addEventListener('DOMContentLoaded', function () {
             titleCell.textContent = key;
             contentCell.textContent = tasks[key].内容;
 
-            // 创建编辑按钮单元格
+            // 创建操作单元格
             const actionCell = document.createElement('td');
+            // 编辑按钮
             const editButton = document.createElement('button');
             editButton.textContent = '编辑';
             editButton.className = 'edit-button';
@@ -434,6 +435,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 eventOverlay.style.zIndex = '200';
             };
             actionCell.appendChild(editButton);
+            // 删除按钮
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = '删除';
+            deleteButton.className = 'delete-event-button';
+            deleteButton.onclick = () => {
+                if (confirm('确定要删除该事件吗？')) {
+                    delete tasks[key];
+                    populateTable(table, tasks, tableId);
+                    localStorage.setItem(
+                        tableId === 'personalEventsTable' ? 'personalEvents' : 'teamEvents',
+                        JSON.stringify(tasks)
+                    );
+                }
+            };
+            actionCell.appendChild(deleteButton);
 
             // 将单元格添加到行
             row.appendChild(enableCell);
@@ -489,6 +505,24 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // 添加事件按钮功能
+    document.getElementById('addPersonalEventButton').onclick = function() {
+        currentEditingEvent = null;
+        currentEditingType = 'personal';
+        editTitle.value = '';
+        editContent.value = '';
+        editPopup.style.display = 'block';
+        eventOverlay.style.zIndex = '200';
+    };
+    document.getElementById('addTeamEventButton').onclick = function() {
+        currentEditingEvent = null;
+        currentEditingType = 'team';
+        editTitle.value = '';
+        editContent.value = '';
+        editPopup.style.display = 'block';
+        eventOverlay.style.zIndex = '200';
+    };
+
     // 保存编辑
     saveEdit.addEventListener('click', () => {
         const newTitle = editTitle.value.trim();
@@ -502,7 +536,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const tasks = currentEditingType === 'personal' ? mission : hardmission;
 
         // 如果标题改变了，需要删除旧的事件并添加新的事件
-        if (newTitle !== currentEditingEvent) {
+        if (currentEditingEvent && newTitle !== currentEditingEvent) {
             delete tasks[currentEditingEvent];
         }
 
