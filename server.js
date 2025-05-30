@@ -1,12 +1,16 @@
-const http = require("http");
+const fs = require("fs");
+const https = require("https");
 const WebSocket = require("ws");
 const { v4: uuidv4 } = require("uuid");
 
 const PORT = process.env.PORT || 3000;
 
-// 创建 HTTP 服务器
-const server = http.createServer();
-const wss = new WebSocket.Server({ server }); // 将 WebSocket 绑定到 HTTP 服务器
+// 加载证书
+const server = https.createServer({
+  cert: fs.readFileSync('fullchain.pem'),
+  key: fs.readFileSync('privkey.pem')
+});
+const wss = new WebSocket.Server({ server });
 
 const rooms = {}; // 存储房间信息
 
@@ -108,5 +112,5 @@ wss.on("connection", (ws) => {
 
 // 启动 HTTP 服务器
 server.listen(PORT, () => {
-  console.log(`WebSocket server is running on port ${PORT}`);
+  console.log(`WebSocket server is running on wss://:${PORT}`);
 });
