@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const ws = new WebSocket('wss://animated-kaput-touch.glitch.me');
+    const ws = new WebSocket('ws://116.198.35.217:3000');
 
     // DOM 元素
     const initialScreen = document.getElementById('initialScreen');
