@@ -97,6 +97,13 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        // 获取当前标注索引
+        let tongTagIndexes = [];
+        if (gameState.tongMode === 'double') {
+            tongTagIndexes = window.lastTongTagIndexes || [];
+        } else if (gameState.tongMode === 'single') {
+            tongTagIndexes = window.lastTongTagIndexes || [];
+        }
         const state = {
             roundCounter: gameState.roundCounter,
             characters: Array.from(characterBoxes).map((box) => ({
@@ -110,7 +117,9 @@ document.addEventListener('DOMContentLoaded', function () {
             hardMission: {
                 title: selectedHardMission.querySelector('.mission-title')?.textContent || '',
                 content: selectedHardMission.querySelector('.mission-content')?.innerHTML || '' // 使用 innerHTML 保留颜色
-            }
+            },
+            tongMode: gameState.tongMode,
+            tongTagIndexes: tongTagIndexes
         };
 
         const history = window.historyData || [];
@@ -354,6 +363,12 @@ ws.onmessage = (event) => {
             return;
         }
 
+        let tongTagIndexes = [];
+        if (gameState.tongMode === 'double') {
+            tongTagIndexes = window.lastTongTagIndexes || [];
+        } else if (gameState.tongMode === 'single') {
+            tongTagIndexes = window.lastTongTagIndexes || [];
+        }
         const state = {
             roundCounter: gameState.roundCounter,
             characters: Array.from(characterBoxes).map((box) => ({
@@ -363,7 +378,9 @@ ws.onmessage = (event) => {
             missions: Array.from(missionBoxes).map((box) => ({
                 title: box.querySelector('.mission-title').textContent,
                 content: box.querySelector('.mission-content').textContent
-            }))
+            })),
+            tongMode: gameState.tongMode,
+            tongTagIndexes: tongTagIndexes
         };
 
         // 添加日志记录主持人发送的数据
@@ -406,6 +423,34 @@ ws.onmessage = (event) => {
             selectedHardMission.style.display = 'block';
             hardMissionTitle.textContent = state.hardMission.title;
             hardMissionContent.innerHTML = state.hardMission.content; // 使用 innerHTML 恢复颜色
+        }
+
+        // 清除所有标注
+        characterBoxes.forEach(box => {
+            let tongTag = box.querySelector('.tong-tag');
+            if (tongTag) tongTag.remove();
+        });
+        // 渲染标注
+        if (state.tongMode === 'double') {
+            (state.tongTagIndexes || []).forEach(i => {
+                let tag = document.createElement('div');
+                tag.className = 'tong-tag';
+                tag.textContent = '双通';
+                tag.style.color = 'blue';
+                tag.style.fontWeight = 'bold';
+                tag.style.textAlign = 'center';
+                characterBoxes[i].appendChild(tag);
+            });
+        } else if (state.tongMode === 'single') {
+            (state.tongTagIndexes || []).forEach(i => {
+                let tag = document.createElement('div');
+                tag.className = 'tong-tag';
+                tag.textContent = '单通';
+                tag.style.color = 'red';
+                tag.style.fontWeight = 'bold';
+                tag.style.textAlign = 'center';
+                characterBoxes[i].appendChild(tag);
+            });
         }
     }
 

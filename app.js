@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', function () {
         startTime: null,           // 游戏开始时间
         lastRoundTime: null,       // 上一轮抽取时间
         totalTime: 0,              // 总用时（秒）
-        timerInterval: null        // 定时器
+        timerInterval: null,       // 定时器
+        tongMode: 'normal'         // 'normal' | 'double' | 'single'
     };
 
     // ================= DOM元素获取 =================
@@ -97,6 +98,9 @@ document.addEventListener('DOMContentLoaded', function () {
             name.textContent = '';
             box.style.opacity = 1; // 确保卡片可见
             box.style.pointerEvents = 'auto'; // 恢复点击事件
+            // 清除tong-tag标注
+            let tongTag = box.querySelector('.tong-tag');
+            if (tongTag) tongTag.remove();
         });
 
         // 清空事件卡片
@@ -171,6 +175,12 @@ document.addEventListener('DOMContentLoaded', function () {
         gameState.roundCounter++;
         roundCounterDisplay.textContent = `当前轮数：${gameState.roundCounter}`;
 
+        // 清除所有标注
+        characterBoxes.forEach(box => {
+            let tongTag = box.querySelector('.tong-tag');
+            if (tongTag) tongTag.remove();
+        });
+
         const roundHistory = [];
         characterBoxes.forEach((box, index) => {
             const unavailableSet = gameState.unavailableCharacters[index];
@@ -208,6 +218,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
             roundHistory.push({ new: newChar });
         });
+
+        // 标注双通/单通
+        let tongTagIndexes = [];
+        if (gameState.tongMode === 'double') {
+            let idxs = [0,1,2,3];
+            for (let i = idxs.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [idxs[i], idxs[j]] = [idxs[j], idxs[i]];
+            }
+            tongTagIndexes = [idxs[0], idxs[1]];
+            tongTagIndexes.forEach(i => {
+                let tag = document.createElement('div');
+                tag.className = 'tong-tag';
+                tag.textContent = '双通';
+                tag.style.color = 'blue';
+                tag.style.fontWeight = 'bold';
+                tag.style.textAlign = 'center';
+                characterBoxes[i].appendChild(tag);
+            });
+        } else if (gameState.tongMode === 'single') {
+            let idx = Math.floor(Math.random() * 4);
+            tongTagIndexes = [idx];
+            let tag = document.createElement('div');
+            tag.className = 'tong-tag';
+            tag.textContent = '单通';
+            tag.style.color = 'red';
+            tag.style.fontWeight = 'bold';
+            tag.style.textAlign = 'center';
+            characterBoxes[idx].appendChild(tag);
+        }
+        // 保存本轮标注索引供同步
+        window.lastTongTagIndexes = tongTagIndexes;
 
         historyData.push(roundHistory);
 
@@ -656,4 +698,36 @@ document.addEventListener('DOMContentLoaded', function () {
     // 初始化个人任务和团体任务表格
     populateTable(personalEventsTable, mission, 'personalEventsTable');
     populateTable(teamEventsTable, hardmission, 'teamEventsTable');
+
+    const tongModeButton = document.getElementById('tongModeButton');
+    tongModeButton.addEventListener('click', () => {
+        if (gameState.tongMode === 'normal') {
+            gameState.tongMode = 'double';
+            tongModeButton.textContent = '双通模式';
+            tongModeButton.style.backgroundColor = '#3498db'; // 蓝色
+            tongModeButton.style.color = 'white';
+        } else if (gameState.tongMode === 'double') {
+            gameState.tongMode = 'single';
+            tongModeButton.textContent = '单通模式';
+            tongModeButton.style.backgroundColor = '#e74c3c'; // 红色
+            tongModeButton.style.color = 'white';
+        } else {
+            gameState.tongMode = 'normal';
+            tongModeButton.textContent = '普通模式';
+            tongModeButton.style.backgroundColor = '#2ecc71'; // 绿色
+            tongModeButton.style.color = 'white';
+        }
+    });
+
+    // 主持/加入房间时控制tongModeButton显示隐藏
+    document.getElementById('hostGameButton').addEventListener('click', () => {
+        tongModeButton.style.display = '';
+        gameState.tongMode = 'normal';
+        tongModeButton.textContent = '普通模式';
+        tongModeButton.style.backgroundColor = '#2ecc71'; // 绿色
+        tongModeButton.style.color = 'white';
+    });
+    document.getElementById('joinGameButton').addEventListener('click', () => {
+        tongModeButton.style.display = 'none';
+    });
 });

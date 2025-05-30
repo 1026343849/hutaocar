@@ -1117,3 +1117,9 @@ input[type="checkbox"] {
         min-width: 40px;
     }
 }
+
+.tong-tag {
+  margin-top: 4px;
+  font-size: 1.1em;
+  display: block;
+}
