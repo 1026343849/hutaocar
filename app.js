@@ -730,4 +730,16 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('joinGameButton').addEventListener('click', () => {
         tongModeButton.style.display = 'none';
     });
+
+    exploreButton.addEventListener('click', () => {
+        initialScreen.style.display = 'none';
+        gameScreen.style.display = 'block';
+        // 禁用房间同步功能
+        console.log('进入游戏主界面，但不进行多人游戏功能');
+        tongModeButton.style.display = '';
+        gameState.tongMode = 'normal';
+        tongModeButton.textContent = '普通模式';
+        tongModeButton.style.backgroundColor = '#2ecc71'; // 绿色
+        tongModeButton.style.color = 'white';
+    });
 });
