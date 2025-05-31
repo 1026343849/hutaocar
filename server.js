@@ -7,8 +7,8 @@ const PORT = process.env.PORT || 3000;
 
 // 1. 读取SSL证书
 const options = {
-  cert: fs.readFileSync('C:/www/server/panel/vhost/cert/ws.hutaocar.cn/fullchain.pem'),
-  key: fs.readFileSync('C:/www/server/panel/vhost/cert/ws.hutaocar.cn/privkey.pem')
+  cert: fs.readFileSync('./fullchain.pem'),
+  key: fs.readFileSync('./privkey.pem')
 };
 
 // 2. 创建HTTPS服务器
