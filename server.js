@@ -5,11 +5,16 @@ const { v4: uuidv4 } = require("uuid");
 
 const PORT = process.env.PORT || 3000;
 
-// 加载证书
-const server = https.createServer({
-  cert: fs.readFileSync('fullchain.pem'),
-  key: fs.readFileSync('privkey.pem')
-});
+// 1. 读取SSL证书
+const options = {
+  cert: fs.readFileSync('C:/www/server/panel/vhost/cert/ws.hutaocar.cn/fullchain.pem'),
+  key: fs.readFileSync('C:/www/server/panel/vhost/cert/ws.hutaocar.cn/privkey.pem')
+};
+
+// 2. 创建HTTPS服务器
+const server = https.createServer(options);
+
+// 3. 创建WebSocket服务器，绑定到HTTPS服务器
 const wss = new WebSocket.Server({ server });
 
 const rooms = {}; // 存储房间信息
@@ -110,7 +115,7 @@ wss.on("connection", (ws) => {
   });
 });
 
-// 启动 HTTP 服务器
+// 5. 启动服务器
 server.listen(PORT, () => {
   console.log(`WebSocket server is running on wss://:${PORT}`);
 });
