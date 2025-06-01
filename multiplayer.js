@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const ws = new WebSocket('wss://ws.hutaocar.cn:3000');
+    const ws = new WebSocket('wss://newws.hutaocar.cn:4000');
 
     // DOM 元素
     const initialScreen = document.getElementById('initialScreen');

@@ -3,12 +3,12 @@ const https = require("https");
 const WebSocket = require("ws");
 const { v4: uuidv4 } = require("uuid");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 // 1. 读取SSL证书
 const options = {
   cert: fs.readFileSync('./fullchain.pem'),
-  key: fs.readFileSync('./privkey.pem')
+  key: fs.readFileSync('./privkey.key')
 };
 
 // 2. 创建HTTPS服务器
@@ -117,5 +117,5 @@ wss.on("connection", (ws) => {
 
 // 5. 启动服务器
 server.listen(PORT, () => {
-  console.log(`WebSocket server is running on wss://:${PORT}`);
+  console.log(`WebSocket server is running on wss://newws.hutaocar.cn:${PORT}`);
 });
