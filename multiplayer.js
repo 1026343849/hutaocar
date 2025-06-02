@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // 自动同步功能：每30秒调用一次 syncGameState
     setInterval(() => {
         syncGameState();
-    }, 30000);
+    }, 3500);
 
     // 绑定同步按钮点击事件
     syncButton.addEventListener('click', (event) => {
