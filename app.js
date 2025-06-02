@@ -136,8 +136,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // ================= 抽取角色 =================
     function displayRandomCharacters() {
         const now = Date.now(); // 当前时间戳
+        let roundTime = Math.floor((now - gameState.lastRoundTime) / 1000);
 
-        let roundTime = 0;
         if (!gameState.isGameStarted) {
             gameState.isGameStarted = true;
             gameState.startTime = now; // 记录游戏开始时间
@@ -153,11 +153,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 const timeCounter = document.getElementById('timeCounter');
                 timeCounter.textContent = `总用时：${formatTime(totalElapsed)} | 本轮用时：${formatTime(roundElapsed)}`;
             }, 1000); // 每秒更新一次
+            window.lastRoundPlayers = null; // 初始化
         } else {
-            // 计算本轮用时
-            roundTime = Math.floor((now - gameState.lastRoundTime) / 1000); // 秒
-            gameState.lastRoundTime = now; // 更新上一轮时间
-            gameState.totalTime += roundTime; // 累加总用时
+            // 第二轮及以后，push上一轮的历史
+            if (window.lastRoundPlayers) {
+                window.historyData.push({ roundTime, players: window.lastRoundPlayers });
+                gameState.totalTime += roundTime;
+            }
         }
 
         // 增加轮数
@@ -240,9 +242,10 @@ document.addEventListener('DOMContentLoaded', function () {
         // 保存本轮标注索引供同步
         window.lastTongTagIndexes = tongTagIndexes;
 
-        // 新结构：每轮为{roundTime, players: [...]}
-        window.historyData.push({ roundTime, players: roundPlayers });
-        
+        // 保存本轮玩家数据，供下次push
+        window.lastRoundPlayers = roundPlayers;
+        gameState.lastRoundTime = now; // 更新上一轮时间
+
         // 如果是主持模式，同步游戏状态
         if (window.isHost === true && window.sendGameState) {
             setTimeout(() => window.sendGameState(), 500);
