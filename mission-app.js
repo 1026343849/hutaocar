@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ? missionData.内容() 
                 : missionData.内容;
 
-            // 检查是否为“方位车？给我干哪来了？”事件
+            // 检查是否为"方位车？给我干哪来了？"事件
             if (missionKey === "方位车？给我干哪来了？") {
                 const AAOptions = ["等级", "命座", "攻击", "生命", "防御", "精通"];
                 const BBOptions = ["上", "下", "左", "右", "左上", "左下", "右上", "右下"];
@@ -245,6 +245,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 绑定按钮点击事件
     missionButton.addEventListener('click', () => {
       displayRandomMissions(); // 抽取事件逻辑
+      if (window.isHost === true && window.sendGameState) {
+        setTimeout(() => window.sendGameState(), 500);
+      }
     });
     
     function saveCheckedState(tableId) {

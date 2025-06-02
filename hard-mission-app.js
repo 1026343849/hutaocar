@@ -180,6 +180,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // 恢复背景滚动
                     document.body.style.overflow = '';
+                    
+                    // 在卡牌点击事件选中困难事件后，自动同步
+                    if (window.isHost === true && window.sendGameState) {
+                        setTimeout(() => window.sendGameState(), 500);
+                    }
                 } else if (!this.classList.contains('revealed')) {
                     // 使用翻转效果而不是直接修改显示属性
                     this.classList.add('flipped');
@@ -263,6 +268,11 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 恢复背景滚动
             restoreBodyScroll();
+            
+            // 在卡牌点击事件选中困难事件后，自动同步
+            if (window.isHost === true && window.sendGameState) {
+                setTimeout(() => window.sendGameState(), 500);
+            }
         } else if (!card.classList.contains('revealed')) {
             // 使用翻转效果而不是直接修改显示属性
             card.classList.add('flipped');

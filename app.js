@@ -612,6 +612,9 @@ document.addEventListener('DOMContentLoaded', function () {
         // 关闭编辑弹窗
         editPopup.style.display = 'none';
         eventOverlay.style.zIndex = '199';
+        if (window.isHost === true && window.sendGameState) {
+            setTimeout(() => window.sendGameState(), 500);
+        }
     });
 
     // 取消编辑

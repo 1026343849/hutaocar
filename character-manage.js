@@ -108,6 +108,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 如果是主持人，发送更新到其他玩家
                 if (window.isHost) {
                     syncCharacterStates();
+                    if (window.sendGameState) {
+                        setTimeout(() => window.sendGameState(), 500);
+                    }
                 }
             });
             

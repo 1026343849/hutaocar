@@ -128,10 +128,10 @@ document.addEventListener('DOMContentLoaded', function () {
         ws.send(JSON.stringify({ type: 'updateState', roomId: currentRoomId, state, history }));
     }
 
-    // 自动同步功能：每3.5秒调用一次 syncGameState
+    // 自动同步功能：每30秒调用一次 syncGameState
     setInterval(() => {
         syncGameState();
-    }, 3500);
+    }, 30000);
 
     // 绑定同步按钮点击事件
     syncButton.addEventListener('click', (event) => {
