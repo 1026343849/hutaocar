@@ -34,10 +34,25 @@
 
     <!-- 主游戏界面 -->
     <div id="gameScreen" style="display: none;">
+        <!-- 新增状态栏 -->
+        <div class="status-bar">
+            <div class="status-item" id="roomCodeWrapper">
+                <span>房间代码: </span><span id="roomCodeDisplay"></span>
+                <button id="copyRoomCodeBtn" style="margin-left: 5px;">复制</button>
+            </div>
+            <div class="status-item" id="roundCounter">当前轮数：0</div>
+            <div class="status-item" id="timeCounter">总用时：00:00 | 本轮用时：00:00</div>
+            <div class="status-item" id="playerCountDisplay"></div>
+            <div class="status-bar-button-group">
+                <button class="sync-button status-item" id="syncButton" style="display: none;">同步数据</button>
+                <button class="history-button status-item" id="historyButton">历史记录</button>
+                <button class="reset-button status-item" id="resetButton">重置游戏</button>
+            </div>
+        </div>
+        
         <h1>抽取角色</h1>
         <button class="start-button" id="tongModeButton" style="margin-bottom: 10px; display: none;">普通模式</button>
         <button class="bp-button" id="bpButton">BP模式：关闭</button>
-        <button class="reset-button" id="resetButton" style="display: none;">重置游戏</button>
         <button class="character-manage-button" id="characterManageButton">角色管理</button>
         <div class="container">
             <div class="character-box" id="box1">
@@ -58,12 +73,6 @@
             </div>
         </div>
         <button class="start-button" id="startButton">开始抽取</button>
-        <div id="roomCodeWrapper" style="display: flex; align-items: center; justify-content: center; margin: 10px 0; font-size: 16px; color: #666;">
-            <div id="roomCodeDisplay"></div>
-            <button id="copyRoomCodeBtn" style="margin-left: 10px; display: none;">复制</button>
-        </div>
-        <div id="roundCounter" style="margin: 10px 0; font-size: 16px; color: #666;">当前轮数：0</div>
-        <div id="timeCounter" style="margin: 10px 0; font-size: 16px; color: #666;">总用时：00:00 | 本轮用时：00:00</div>
         <h1>抽取事件</h1>
         <div class="container">
             <div class="mission-box" id="mission1">
@@ -90,7 +99,6 @@
         <div class="button-container">
             <button class="start-button" id="missionButton">抽取事件</button>
             <button class="hard-button" id="hardModeButton">不够牢！</button>
-            <button class="sync-button" id="syncButton" style="display: none;" >同步数据</button> 
         </div>
 
         <div class="rules-container">

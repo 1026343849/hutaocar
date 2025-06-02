@@ -13,7 +13,8 @@ document.addEventListener('DOMContentLoaded', function () {
         lastRoundTime: null,       // 上一轮抽取时间
         totalTime: 0,              // 总用时（秒）
         timerInterval: null,       // 定时器
-        tongMode: 'normal'         // 'normal' | 'double' | 'single'
+        tongMode: 'normal',        // 'normal' | 'double' | 'single'
+        tongTagIndexes: []
     };
 
     // ================= DOM元素获取 =================
@@ -22,12 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const bpButton = document.getElementById('bpButton');
     const resetButton = document.getElementById('resetButton');
     const roundCounterDisplay = document.getElementById('roundCounter');
-    const historyButton = document.createElement('button');
-    historyButton.textContent = '历史记录';
-    historyButton.className = 'history-button';
-    historyButton.style.display = 'none';
-    document.body.appendChild(historyButton);
-
+    const historyButton = document.getElementById('historyButton');
     const overlay = document.createElement('div'); // 黑色半透明背景
     overlay.className = 'overlay';
     overlay.style.display = 'none';
@@ -47,7 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
     closeHistoryButton.className = 'close-history-button';
     historyPopup.appendChild(closeHistoryButton);
 
-    const historyData = []; // 保存历史记录
+    // 将historyData提升为全局变量以便于多人游戏时共享
+    window.historyData = []; // 保存历史记录
 
     // ================= 初始化 =================
     function initializeBPButton() {
@@ -125,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // 清空历史记录并关闭弹窗
-        historyData.length = 0;
+        window.historyData = [];
         historyPopup.style.display = 'none';
         overlay.style.display = 'none';
 
@@ -140,35 +137,27 @@ document.addEventListener('DOMContentLoaded', function () {
     function displayRandomCharacters() {
         const now = Date.now(); // 当前时间戳
 
+        let roundTime = 0;
         if (!gameState.isGameStarted) {
             gameState.isGameStarted = true;
             gameState.startTime = now; // 记录游戏开始时间
             gameState.lastRoundTime = now; // 初始化上一轮时间
             bpButton.disabled = true;
-            resetButton.style.display = 'inline-block';
-            historyButton.style.display = 'inline-block'; // 显示历史记录按钮
-
+            resetButton.style.display = 'block'; // 使用block而不是inline-block
             // 启动定时器，实时更新总用时和本轮用时
             gameState.timerInterval = setInterval(() => {
                 const currentTime = Date.now();
                 const totalElapsed = Math.floor((currentTime - gameState.startTime) / 1000); // 总用时
                 const roundElapsed = Math.floor((currentTime - gameState.lastRoundTime) / 1000); // 本轮用时
-
                 // 更新页面显示
                 const timeCounter = document.getElementById('timeCounter');
                 timeCounter.textContent = `总用时：${formatTime(totalElapsed)} | 本轮用时：${formatTime(roundElapsed)}`;
             }, 1000); // 每秒更新一次
         } else {
             // 计算本轮用时
-            const roundTime = Math.floor((now - gameState.lastRoundTime) / 1000); // 秒
+            roundTime = Math.floor((now - gameState.lastRoundTime) / 1000); // 秒
             gameState.lastRoundTime = now; // 更新上一轮时间
             gameState.totalTime += roundTime; // 累加总用时
-
-            // 将本轮用时记录到历史数据
-            const lastRound = historyData[historyData.length - 1];
-            if (lastRound) {
-                lastRound.roundTime = roundTime; // 保存本轮用时
-            }
         }
 
         // 增加轮数
@@ -181,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (tongTag) tongTag.remove();
         });
 
-        const roundHistory = [];
+        const roundPlayers = [];
         characterBoxes.forEach((box, index) => {
             const unavailableSet = gameState.unavailableCharacters[index];
             let availableChars = getCharacterKeys();
@@ -216,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 调用动画函数更新角色卡片
             animateSelection(box, newChar, 0);
 
-            roundHistory.push({ new: newChar });
+            roundPlayers.push({ new: newChar });
         });
 
         // 标注双通/单通
@@ -251,7 +240,13 @@ document.addEventListener('DOMContentLoaded', function () {
         // 保存本轮标注索引供同步
         window.lastTongTagIndexes = tongTagIndexes;
 
-        historyData.push(roundHistory);
+        // 新结构：每轮为{roundTime, players: [...]}
+        window.historyData.push({ roundTime, players: roundPlayers });
+        
+        // 如果是主持模式，同步游戏状态
+        if (window.isHost === true && window.sendGameState) {
+            setTimeout(() => window.sendGameState(), 500);
+        }
 
         // 禁用按钮 0.5 秒
         startButton.disabled = true;
@@ -313,25 +308,25 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => box.style.pointerEvents = 'auto', 3500);
 
         // 更新历史记录
-        const lastRound = historyData[historyData.length - 1];
-        if (lastRound) {
-            if (!lastRound[playerIndex].replaced) {
-                // 初始化 replaced 数组并记录第一次替换
-                lastRound[playerIndex].replaced = [oldChar, newChar];
+        const lastRound = window.historyData[window.historyData.length - 1];
+        if (lastRound && lastRound.players) {
+            if (!lastRound.players[playerIndex].replaced) {
+                lastRound.players[playerIndex].replaced = [oldChar, newChar];
             } else {
-                // 检查最后一个角色是否与新角色相同，避免重复记录
-                const lastCharacter = lastRound[playerIndex].replaced[lastRound[playerIndex].replaced.length - 1];
+                const lastCharacter = lastRound.players[playerIndex].replaced[lastRound.players[playerIndex].replaced.length - 1];
                 if (lastCharacter !== newChar) {
-                    lastRound[playerIndex].replaced.push(newChar);
+                    lastRound.players[playerIndex].replaced.push(newChar);
                 }
+            }
+            if (window.isHost === true && window.sendGameState) {
+                setTimeout(() => window.sendGameState(), 500);
             }
         }
     }
 
     // ================= 显示历史记录 =================
     historyButton.addEventListener('click', () => {
-        historyContent.innerHTML = ''; // 清空内容
-
+        historyContent.innerHTML = '';
         // 创建表格
         const table = document.createElement('table');
         table.style.margin = '0 auto'; // 居中表格
@@ -366,41 +361,54 @@ document.addEventListener('DOMContentLoaded', function () {
 
         table.appendChild(headerRow);
 
-        // 添加每轮记录
-        historyData.forEach((round, index) => {
-            const row = document.createElement('tr');
-            row.style.textAlign = 'center';
+        // 使用全局历史记录变量
+        const historyDataToUse = window.historyData || [];
+        
+        // 如果没有历史记录，显示提示
+        if (historyDataToUse.length === 0) {
+            const noDataRow = document.createElement('tr');
+            const noDataCell = document.createElement('td');
+            noDataCell.textContent = '暂无历史记录';
+            noDataCell.colSpan = 6; // 跨越所有列
+            noDataCell.style.textAlign = 'center';
+            noDataCell.style.padding = '20px';
+            noDataRow.appendChild(noDataCell);
+            table.appendChild(noDataRow);
+        } else {
+            // 添加每轮记录
+            historyDataToUse.forEach((round, index) => {
+                const row = document.createElement('tr');
+                row.style.textAlign = 'center';
 
-            const roundCell = document.createElement('td');
-            roundCell.textContent = ` ${index + 1} `;
-            roundCell.style.border = '1px solid #ddd';
-            roundCell.style.padding = '8px';
-            row.appendChild(roundCell);
+                const roundCell = document.createElement('td');
+                roundCell.textContent = ` ${index + 1} `;
+                roundCell.style.border = '1px solid #ddd';
+                roundCell.style.padding = '8px';
+                row.appendChild(roundCell);
 
-            const timeCell = document.createElement('td');
-            timeCell.textContent = formatTime(round.roundTime || 0); // 使用格式化时间
-            timeCell.style.border = '1px solid #ddd';
-            timeCell.style.padding = '8px';
-            row.appendChild(timeCell);
+                const timeCell = document.createElement('td');
+                // 优先使用同步过来的roundTime
+                timeCell.textContent = formatTime(round.roundTime || 0); // 使用格式化时间
+                timeCell.style.border = '1px solid #ddd';
+                timeCell.style.padding = '8px';
+                row.appendChild(timeCell);
 
-            // 添加每位玩家的角色
-            round.forEach(player => {
-                const playerCell = document.createElement('td');
-                playerCell.style.border = '1px solid #ddd';
-                playerCell.style.padding = '8px';
+                // 渲染每位玩家
+                (round.players || []).forEach(player => {
+                    const playerCell = document.createElement('td');
+                    playerCell.style.border = '1px solid #ddd';
+                    playerCell.style.padding = '8px';
+                    if (player.replaced && player.replaced.length > 1) {
+                        playerCell.textContent = player.replaced.join('→');
+                    } else {
+                        playerCell.textContent = player.new;
+                    }
+                    row.appendChild(playerCell);
+                });
 
-                // 如果有替换记录，显示完整的替换链条
-                if (player.replaced && player.replaced.length > 1) {
-                    playerCell.textContent = player.replaced.join('→');
-                } else {
-                    playerCell.textContent = player.new; // 否则显示当前角色
-                }
-
-                row.appendChild(playerCell);
+                table.appendChild(row);
             });
-
-            table.appendChild(row);
-        });
+        }
 
         historyContent.appendChild(table);
 
@@ -691,9 +699,7 @@ document.addEventListener('DOMContentLoaded', function () {
         box.addEventListener('click', () => refreshSingleCharacter(box));
     });
 
-    startButton.addEventListener('click', () => {
-        displayRandomCharacters(); // 抽取角色逻辑
-    });
+    startButton.addEventListener('click', displayRandomCharacters);
 
     // 初始化个人任务和团体任务表格
     populateTable(personalEventsTable, mission, 'personalEventsTable');

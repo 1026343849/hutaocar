@@ -156,15 +156,28 @@ h1 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-weight: bold;
     letter-spacing: 1px;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 300;
 }
 
 .reset-button:hover {
     background-color: #c0392b;
     transform: translateY(-2px);
+}
+
+/* 重置按钮在状态栏中的样式 */
+.reset-button.status-item {
+    padding: 5px 12px;
+    font-size: 14px;
+    background-color: #e74c3c;
+    border-radius: 4px;
+    box-shadow: none;
+    letter-spacing: normal;
+    font-weight: normal;
+    margin: 0;
+}
+
+.reset-button.status-item:hover {
+    background-color: #c0392b;
+    transform: none;
 }
 
 /* 历史记录按钮样式 */
@@ -180,14 +193,30 @@ h1 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     font-weight: bold;
     letter-spacing: 1px;
-    position: fixed;
-    top: 20px;
-    left: 20px;
 }
+
 .history-button:hover {
     background-color: #2980b9;
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
+}
+
+/* 历史记录按钮在状态栏中的样式 */
+.history-button.status-item {
+    padding: 5px 12px;
+    font-size: 14px;
+    background-color: #3498db;
+    border-radius: 4px;
+    box-shadow: none;
+    letter-spacing: normal;
+    font-weight: normal;
+    margin: 0;
+}
+
+.history-button.status-item:hover {
+    background-color: #2980b9;
+    transform: none;
+    box-shadow: none;
 }
 
 /* 黑色半透明背景 */
@@ -666,23 +695,28 @@ img {
 
 /* 同步数据按钮样式 */
 .sync-button {
-    padding: 12px 35px;
-    font-size: 18px;
-    background-color: #8e44ad; /* 紫色背景 */
+    background-color: #8e44ad;
     color: white;
     border: none;
-    border-radius: 30px;
+    border-radius: 4px;
+    padding: 5px 12px;
+    font-size: 14px;
     cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    font-weight: bold;
-    letter-spacing: 1px;
+    transition: background-color 0.3s;
+    font-weight: normal;
 }
 
 .sync-button:hover {
-    background-color: #732d91; /* 深紫色背景 */
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
+    background-color: #732d91;
+}
+
+.sync-button.status-item {
+    margin-left: auto;
+    background-color: #27ae60;
+}
+
+.sync-button.status-item:hover {
+    background-color: #219653;
 }
 
 /* 查看事件按钮样式 */
@@ -1122,4 +1156,169 @@ input[type="checkbox"] {
   margin-top: 4px;
   font-size: 1.1em;
   display: block;
+}
+
+/* 状态栏样式 */
+.status-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #f8f1ff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    gap: 8px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #444;
+    padding: 5px 8px;
+    margin: 0;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* 创建一个按钮组，将三个控制按钮放在一起 */
+.status-bar-button-group {
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+}
+
+/* 状态栏中的按钮统一样式 */
+.status-bar button.status-item {
+    padding: 5px 12px;
+    font-size: 14px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: normal;
+    margin: 0;
+    min-width: 80px;
+    text-align: center;
+}
+
+#copyRoomCodeBtn {
+    background-color: #8e44ad;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 3px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 5px;
+    min-width: auto;
+}
+
+#copyRoomCodeBtn:hover {
+    background-color: #732d91;
+}
+
+/* 各种状态栏按钮的特定颜色 */
+.sync-button.status-item {
+    background-color: #27ae60;
+}
+
+.sync-button.status-item:hover {
+    background-color: #219653;
+}
+
+.reset-button.status-item {
+    background-color: #e74c3c;
+}
+
+.reset-button.status-item:hover {
+    background-color: #c0392b;
+}
+
+.history-button.status-item {
+    background-color: #3498db;
+}
+
+.history-button.status-item:hover {
+    background-color: #2980b9;
+}
+
+#playerCountDisplay {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+#roomCodeWrapper {
+    font-weight: bold;
+}
+
+#roundCounter {
+    color: #e67e22;
+    font-weight: bold;
+}
+
+#timeCounter {
+    color: #2980b9;
+    font-weight: bold;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .status-bar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 8px;
+        gap: 6px;
+    }
+    
+    .status-item {
+        margin: 0;
+        justify-content: center;
+    }
+    
+    #roomCodeWrapper {
+        justify-content: center;
+    }
+    
+    /* 状态栏按钮在移动端的特殊样式 */
+    .status-bar-button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .status-bar button.status-item {
+        margin: 0;
+        padding: 8px 12px;
+        width: 100%;
+    }
+}
+
+/* 小屏设备的特别优化 */
+@media (max-width: 480px) {
+    .status-bar {
+        padding: 5px;
+    }
+    
+    .status-item {
+        font-size: 13px;
+        padding: 4px 6px;
+    }
+    
+    .status-bar button.status-item {
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+    
+    #copyRoomCodeBtn {
+        padding: 3px 6px;
+        font-size: 11px;
+    }
 }
