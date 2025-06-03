@@ -185,13 +185,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (window.isHost === true && window.sendGameState) {
                         setTimeout(() => window.sendGameState(), 500);
                         
-                        // 自动点击同步按钮（如果是主持人）
-                        setTimeout(() => {
-                            const syncButton = document.getElementById('syncButton');
-                            if (syncButton) {
-                                syncButton.click();
-                            }
-                        }, 600);
+                        // 自动触发同步
+                        window.triggerSync();
                     }
                 } else if (!this.classList.contains('revealed')) {
                     // 使用翻转效果而不是直接修改显示属性
@@ -281,13 +276,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (window.isHost === true && window.sendGameState) {
                 setTimeout(() => window.sendGameState(), 500);
                 
-                // 自动点击同步按钮（如果是主持人）
-                setTimeout(() => {
-                    const syncButton = document.getElementById('syncButton');
-                    if (syncButton) {
-                        syncButton.click();
-                    }
-                }, 600);
+                // 自动触发同步
+                window.triggerSync();
             }
         } else if (!card.classList.contains('revealed')) {
             // 使用翻转效果而不是直接修改显示属性

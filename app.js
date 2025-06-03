@@ -251,15 +251,8 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => window.sendGameState(), 500);
         }
 
-        // 自动点击同步按钮（如果是主持人）
-        if (window.isHost === true) {
-            const syncButton = document.getElementById('syncButton');
-            if (syncButton) {
-                setTimeout(() => {
-                    syncButton.click();
-                }, 500);
-            }
-        }
+        // 自动触发同步
+        window.triggerSync();
 
         // 禁用按钮 0.5 秒
         startButton.disabled = true;
@@ -336,15 +329,8 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
         
-        // 自动点击同步按钮（如果是主持人）
-        if (window.isHost === true) {
-            const syncButton = document.getElementById('syncButton');
-            if (syncButton) {
-                setTimeout(() => {
-                    syncButton.click();
-                }, 500);
-            }
-        }
+        // 自动触发同步
+        window.triggerSync();
     }
 
     // ================= 显示历史记录 =================

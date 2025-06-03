@@ -202,6 +202,25 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 3000);
     }
 
+    // 全局辅助函数：自动触发同步（仅主持人有效）
+    window.triggerSync = function() {
+        if (window.isHost === true) {
+            console.log('触发自动同步');
+            // 先通过 sendGameState 同步状态
+            if (window.sendGameState) {
+                setTimeout(() => window.sendGameState(), 500);
+            }
+            
+            // 然后点击同步按钮更新UI
+            const syncButton = document.getElementById('syncButton');
+            if (syncButton) {
+                setTimeout(() => {
+                    syncButton.click();
+                }, 600);
+            }
+        }
+    };
+
     // WebSocket 消息处理
     ws.onmessage = (event) => {
         console.log('收到消息:', event.data);
