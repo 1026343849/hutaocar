@@ -1206,6 +1206,23 @@ input[type="checkbox"] {
     text-align: center;
 }
 
+/* 角色管理按钮在状态栏中的样式 */
+.character-manage-button.status-item {
+    background-color: #9b59b6;
+    padding: 5px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    box-shadow: none;
+    letter-spacing: normal;
+    font-weight: normal;
+    margin: 0;
+}
+
+.character-manage-button.status-item:hover {
+    background-color: #8e44ad;
+    transform: none;
+}
+
 #copyRoomCodeBtn {
     background-color: #8e44ad;
     color: white;
