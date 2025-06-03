@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     // ================= 游戏状态管理 =================
     window.gameState = {
-        bpMode: 'off', // 当前BP模式: global | personal | off
+        bpMode: 'global', // 当前BP模式: global | personal | off
         usedCharacters: {
             global: new Set(),    // 全局已选角色
             players: [new Set(), new Set(), new Set(), new Set()] // 各玩家已选角色
@@ -24,6 +24,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const resetButton = document.getElementById('resetButton');
     const roundCounterDisplay = document.getElementById('roundCounter');
     const historyButton = document.getElementById('historyButton');
+    
+    // 检查是否为主持人，只有主持人才显示BP按钮
+    if (window.isHost) {
+        bpButton.style.display = 'inline-flex';
+    } else {
+        bpButton.style.display = 'none';
+    }
+    
     const overlay = document.createElement('div'); // 黑色半透明背景
     overlay.className = 'overlay';
     overlay.style.display = 'none';
@@ -62,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
             bpButton.textContent = `BP模式：${getModeName(newMode)}`;
             bpButton.dataset.mode = newMode;
             
-            // 更新状态栏的BP模式显示
+            // 更新BP模式显示
             const bpModeDisplay = document.getElementById('bpModeDisplay');
             if (bpModeDisplay) {
                 bpModeDisplay.textContent = `BP模式: ${getModeName(newMode)}`;

@@ -262,6 +262,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 syncButton.style.display = 'block';
                 resetButton.style.display = 'block';
                 
+                // 显示BP按钮（只有主持人可见）
+                if (bpButton) {
+                    bpButton.style.display = 'inline-flex';
+                }
+                
                 // 房间创建成功后，确保弹窗和遮罩隐藏
                 document.getElementById('hostRoomOverlay').style.display = 'none';
                 document.getElementById('hostRoomPopup').style.display = 'none';
@@ -516,6 +521,11 @@ document.addEventListener('DOMContentLoaded', function () {
         input.value = '';
         overlay.style.display = 'block';
         popup.style.display = 'block';
+
+        // 隐藏BP按钮
+        if (bpButton) {
+            bpButton.style.display = 'none';
+        }
 
         function closePopup() {
             overlay.style.display = 'none';

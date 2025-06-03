@@ -1255,7 +1255,7 @@ input[type="checkbox"] {
     width: auto !important;
     border: none !important;
     transition: background-color 0.3s !important;
-    display: inline-flex !important;
+    display: inline-flex;
     align-items: center !important;
     justify-content: center !important;
 }
