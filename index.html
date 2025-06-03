@@ -27,8 +27,8 @@
             推荐使用电脑端主持游戏，主持人杀后台、掉线会使房间解散。
         </h6>
         <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-            <button class="start-button" id="viewEventsButton">事件管理</button>
-            <button class="start-button" id="exploreButton">进去看看</button>
+            <button class="start-button" id="viewEventsButton">游戏设置</button>
+            <button class="start-button" id="exploreButton">本地模式</button>
         </div>
     </div>
 
@@ -128,6 +128,17 @@
 
     <!-- 弹窗结构 -->
     <div class="overlay" id="eventOverlay" style="display: none;"></div>
+    
+    <!-- 设置面板 -->
+    <div class="event-popup" id="settingsPopup" style="display: none; max-width: 400px;">
+        <button class="close-popup-button" id="closeSettingsPopup">✕</button>
+        <h3 style="text-align:center;">设置</h3>
+        <div style="display:flex;justify-content:center;gap:10px;margin-top:20px;margin-bottom:20px;">
+            <button id="openCharacterManage" class="start-button" style="padding:10px 20px;font-size:16px;">角色管理</button>
+            <button id="openEventManage" class="start-button" style="padding:10px 20px;font-size:16px;">事件管理</button>
+        </div>
+    </div>
+    
     <div class="event-popup" id="eventPopup" style="display: none;">
         <button class="close-popup-button" id="closeEventPopup">✕</button>
         <div class="popup-header">

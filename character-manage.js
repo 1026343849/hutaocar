@@ -12,22 +12,37 @@ document.addEventListener('DOMContentLoaded', function() {
     // 存储角色启用状态的对象
     window.characterStates = JSON.parse(localStorage.getItem('characterStates')) || {};
     
-    // 弹窗的显示与隐藏
-    characterManageButton.addEventListener('click', () => {
+    // 创建公共初始化函数，供设置面板中的角色管理按钮使用
+    window.initCharacterManagement = function() {
         initFilters();
         populateCharacters();
         characterPopup.style.display = 'block';
         characterOverlay.style.display = 'block';
+    };
+    
+    // 弹窗的显示与隐藏
+    characterManageButton.addEventListener('click', () => {
+        window.initCharacterManagement(); // 使用公共初始化函数
     });
     
     closeCharacterPopup.addEventListener('click', () => {
         characterPopup.style.display = 'none';
         characterOverlay.style.display = 'none';
+        // 同时关闭设置面板的遮罩层，确保完全返回初始界面
+        const eventOverlay = document.getElementById('eventOverlay');
+        if (eventOverlay) {
+            eventOverlay.style.display = 'none';
+        }
     });
     
     characterOverlay.addEventListener('click', () => {
         characterPopup.style.display = 'none';
         characterOverlay.style.display = 'none';
+        // 同时关闭设置面板的遮罩层，确保完全返回初始界面
+        const eventOverlay = document.getElementById('eventOverlay');
+        if (eventOverlay) {
+            eventOverlay.style.display = 'none';
+        }
     });
     
     // 初始化筛选下拉框

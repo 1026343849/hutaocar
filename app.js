@@ -484,10 +484,48 @@ document.addEventListener('DOMContentLoaded', function () {
     const editContent = document.getElementById('editContent');
     const saveEdit = document.getElementById('saveEdit');
     const cancelEdit = document.getElementById('cancelEdit');
+    
+    // 设置面板元素
+    const settingsPopup = document.getElementById('settingsPopup');
+    const closeSettingsPopup = document.getElementById('closeSettingsPopup');
+    const openCharacterManage = document.getElementById('openCharacterManage');
+    const openEventManage = document.getElementById('openEventManage');
 
     let isShowingPersonal = true;
     let currentEditingEvent = null;
     let currentEditingType = null;
+    
+    // 设置相关功能
+    closeSettingsPopup.addEventListener('click', () => {
+        eventOverlay.style.display = 'none';
+        settingsPopup.style.display = 'none';
+    });
+    
+    // 打开角色管理
+    openCharacterManage.addEventListener('click', () => {
+        settingsPopup.style.display = 'none';
+        // 确保设置面板的遮罩已关闭，避免叠加
+        eventOverlay.style.display = 'none';
+        // 调用与主界面中角色管理相同的初始化函数
+        if (window.initCharacterManagement) {
+            window.initCharacterManagement();
+        } else {
+            // 如果初始化函数不可用，直接显示弹窗
+            document.getElementById('characterOverlay').style.display = 'block';
+            document.getElementById('characterPopup').style.display = 'block';
+        }
+    });
+    
+    // 打开事件管理
+    openEventManage.addEventListener('click', () => {
+        settingsPopup.style.display = 'none';
+        populateTable(personalEventsTable, mission, 'personalEventsTable'); // 填充个人任务
+        populateTable(teamEventsTable, hardmission, 'teamEventsTable'); // 填充团体任务
+        eventPopup.style.display = 'block';
+        personalEvents.style.display = 'block';
+        teamEvents.style.display = 'none';
+        toggleEventsButton.textContent = '显示团体事件';
+    });
 
     // 填充任务表格
     function populateTable(table, tasks, tableId) {
@@ -557,18 +595,13 @@ document.addEventListener('DOMContentLoaded', function () {
         attachCheckboxListeners(tableId);
     }
 
-    // 显示弹窗
+    // 显示设置弹窗
     viewEventsButton.addEventListener('click', () => {
-        populateTable(personalEventsTable, mission, 'personalEventsTable'); // 填充个人任务
-        populateTable(teamEventsTable, hardmission, 'teamEventsTable'); // 填充团体任务
         eventOverlay.style.display = 'block';
-        eventPopup.style.display = 'block';
-        personalEvents.style.display = 'block';
-        teamEvents.style.display = 'none';
-        toggleEventsButton.textContent = '显示团体事件';
+        settingsPopup.style.display = 'block';
     });
 
-    // 关闭弹窗
+    // 关闭事件弹窗
     closeEventPopup.addEventListener('click', () => {
         eventOverlay.style.display = 'none';
         eventPopup.style.display = 'none';
@@ -578,6 +611,7 @@ document.addEventListener('DOMContentLoaded', function () {
     eventOverlay.addEventListener('click', () => {
         eventOverlay.style.display = 'none';
         eventPopup.style.display = 'none';
+        settingsPopup.style.display = 'none';
         editPopup.style.display = 'none';
     });
 
