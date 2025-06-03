@@ -317,6 +317,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (characterManageButton) {
                         characterManageButton.style.display = 'none';
                     }
+                    
+                    // 隐藏事件管理按钮
+                    const eventManageButton = document.getElementById('eventManageButton');
+                    if (eventManageButton) {
+                        eventManageButton.style.display = 'none';
+                    }
 
                     // 禁用角色卡片单击事件
                     characterBoxes.forEach((box) => {

@@ -491,6 +491,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const editContent = document.getElementById('editContent');
     const saveEdit = document.getElementById('saveEdit');
     const cancelEdit = document.getElementById('cancelEdit');
+    const eventManageButton = document.getElementById('eventManageButton');
     
     // 设置面板元素
     const settingsPopup = document.getElementById('settingsPopup');
@@ -501,6 +502,17 @@ document.addEventListener('DOMContentLoaded', function () {
     let isShowingPersonal = true;
     let currentEditingEvent = null;
     let currentEditingType = null;
+    
+    // 状态栏事件管理按钮点击处理
+    eventManageButton.addEventListener('click', () => {
+        populateTable(personalEventsTable, mission, 'personalEventsTable'); // 填充个人任务
+        populateTable(teamEventsTable, hardmission, 'teamEventsTable'); // 填充团体任务
+        eventOverlay.style.display = 'block';
+        eventPopup.style.display = 'block';
+        personalEvents.style.display = 'block';
+        teamEvents.style.display = 'none';
+        toggleEventsButton.textContent = '显示团体事件';
+    });
     
     // 设置相关功能
     closeSettingsPopup.addEventListener('click', () => {
