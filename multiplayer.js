@@ -153,7 +153,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 1000);
     });
 
-    // 在主界面顶部动态显示当前人数
+    // 跟踪上一次的玩家数量
+    let lastPlayerCount = 1; // 默认为1（主持人自己）
+    
     function showPlayerCount(count) {
         // 检查是否已经存在提示框
         let playerCountDisplay = document.getElementById('playerCountDisplay');
@@ -174,6 +176,17 @@ document.addEventListener('DOMContentLoaded', function () {
         if (playerCountDisplay) {
             playerCountDisplay.textContent = `当前人数：${count}`;
         }
+        
+        // 如果是主持人，并且检测到玩家数量增加，触发同步
+        if (window.isHost && count > lastPlayerCount) {
+            console.log(`检测到玩家加入，人数从${lastPlayerCount}增加到${count}，触发同步`);
+            showTemporaryMessage(`有新玩家加入，自动同步数据...`);
+            // 延迟1秒后同步，确保新玩家界面加载完成
+            setTimeout(() => window.triggerSync(), 1000);
+        }
+        
+        // 更新上一次玩家数量
+        lastPlayerCount = count;
     }
 
     // 显示临时提示框
