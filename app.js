@@ -842,6 +842,10 @@ document.addEventListener('DOMContentLoaded', function () {
         tongModeButton.textContent = '普通模式';
         tongModeButton.style.backgroundColor = '#2ecc71'; // 绿色
         tongModeButton.style.color = 'white';
+        
+        // 设置为主持人模式，显示BP按钮
+        window.isHost = true;
+        bpButton.style.display = 'inline-flex';
     });
 
     // 全局触发同步的辅助函数
