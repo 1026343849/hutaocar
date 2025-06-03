@@ -1223,6 +1223,24 @@ input[type="checkbox"] {
     transform: none;
 }
 
+/* 普通模式按钮在状态栏中的样式 */
+.start-button.status-item {
+    padding: 5px 12px;
+    font-size: 14px;
+    background-color: #3498db;
+    border-radius: 4px;
+    box-shadow: none;
+    letter-spacing: normal;
+    font-weight: normal;
+    margin: 0;
+}
+
+.start-button.status-item:hover {
+    background-color: #2980b9;
+    transform: none;
+    box-shadow: none;
+}
+
 #copyRoomCodeBtn {
     background-color: #8e44ad;
     color: white;
