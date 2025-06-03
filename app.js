@@ -251,6 +251,16 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(() => window.sendGameState(), 500);
         }
 
+        // 自动点击同步按钮（如果是主持人）
+        if (window.isHost === true) {
+            const syncButton = document.getElementById('syncButton');
+            if (syncButton) {
+                setTimeout(() => {
+                    syncButton.click();
+                }, 500);
+            }
+        }
+
         // 禁用按钮 0.5 秒
         startButton.disabled = true;
         setTimeout(() => {
@@ -323,6 +333,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             if (window.isHost === true && window.sendGameState) {
                 setTimeout(() => window.sendGameState(), 500);
+            }
+        }
+        
+        // 自动点击同步按钮（如果是主持人）
+        if (window.isHost === true) {
+            const syncButton = document.getElementById('syncButton');
+            if (syncButton) {
+                setTimeout(() => {
+                    syncButton.click();
+                }, 500);
             }
         }
     }

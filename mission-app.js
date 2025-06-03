@@ -136,6 +136,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     playerTag.classList.add('show');
                 }, 500); // 在内容显示后再显示玩家标识
             }
+            
+            // 自动点击同步按钮（如果是主持人）
+            if (window.isHost === true) {
+                const syncButton = document.getElementById('syncButton');
+                if (syncButton) {
+                    setTimeout(() => {
+                        syncButton.click();
+                    }, 500);
+                }
+            }
         }, 300);
     }
     
@@ -247,6 +257,16 @@ document.addEventListener('DOMContentLoaded', function() {
       displayRandomMissions(); // 抽取事件逻辑
       if (window.isHost === true && window.sendGameState) {
         setTimeout(() => window.sendGameState(), 500);
+      }
+      
+      // 自动点击同步按钮（如果是主持人）
+      if (window.isHost === true) {
+        const syncButton = document.getElementById('syncButton');
+        if (syncButton) {
+            setTimeout(() => {
+                syncButton.click();
+            }, 500);
+        }
       }
     });
     

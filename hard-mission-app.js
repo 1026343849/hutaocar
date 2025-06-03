@@ -184,6 +184,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 在卡牌点击事件选中困难事件后，自动同步
                     if (window.isHost === true && window.sendGameState) {
                         setTimeout(() => window.sendGameState(), 500);
+                        
+                        // 自动点击同步按钮（如果是主持人）
+                        setTimeout(() => {
+                            const syncButton = document.getElementById('syncButton');
+                            if (syncButton) {
+                                syncButton.click();
+                            }
+                        }, 600);
                     }
                 } else if (!this.classList.contains('revealed')) {
                     // 使用翻转效果而不是直接修改显示属性
@@ -213,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.style.display = 'block';
 
         // 如果是主持人，确保困难模式事件区域隐藏，直到选择一个事件
-        if (isHost) {
+        if (window.isHost) {
             const selectedHardMission = document.getElementById('selectedHardMission');
             if (selectedHardMission) {
                 selectedHardMission.style.display = 'none';
@@ -272,6 +280,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // 在卡牌点击事件选中困难事件后，自动同步
             if (window.isHost === true && window.sendGameState) {
                 setTimeout(() => window.sendGameState(), 500);
+                
+                // 自动点击同步按钮（如果是主持人）
+                setTimeout(() => {
+                    const syncButton = document.getElementById('syncButton');
+                    if (syncButton) {
+                        syncButton.click();
+                    }
+                }, 600);
             }
         } else if (!card.classList.contains('revealed')) {
             // 使用翻转效果而不是直接修改显示属性

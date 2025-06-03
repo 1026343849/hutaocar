@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const connectionStatus = document.getElementById('connectionStatus');
     const exploreButton = document.getElementById('exploreButton'); 
 
-    let isHost = false;
+    window.isHost = false;
     let currentRoomId = null;
 
     // 默认禁用按钮
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         confirmBtn.onclick = function() {
             ws.send(JSON.stringify({ type: 'createRoom' }));
-            isHost = true;
+            window.isHost = true;
             if (timeCounter) timeCounter.style.display = 'block';
             closePopup();
         };
@@ -96,6 +96,8 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('gameState 未定义');
             return;
         }
+
+        console.log('执行同步操作，当前 isHost 状态:', window.isHost);
 
         // 获取当前标注索引
         let tongTagIndexes = [];
@@ -131,10 +133,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // 自动同步功能：每30秒调用一次 syncGameState
     setInterval(() => {
         syncGameState();
-    }, 3500);
+    }, 30000);
 
     // 绑定同步按钮点击事件
     syncButton.addEventListener('click', (event) => {
+        console.log('同步按钮被点击，当前 isHost 状态:', window.isHost);
         syncGameState(); // 调用同步数据函数
         
         // 更改按钮文本，显示同步成功
@@ -262,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 // 隐藏按钮并禁用功能（加入房间的玩家）
-                if (!isHost) {
+                if (!window.isHost) {
                     resetButton.style.display = 'none';
                     startButton.style.display = 'none';
                     missionButton.style.display = 'none';
@@ -366,8 +369,12 @@ document.addEventListener('DOMContentLoaded', function () {
             })),
             missions: Array.from(missionBoxes).map((box) => ({
                 title: box.querySelector('.mission-title').textContent,
-                content: box.querySelector('.mission-content').textContent
+                content: box.querySelector('.mission-content').innerHTML
             })),
+            hardMission: {
+                title: selectedHardMission.querySelector('.mission-title')?.textContent || '',
+                content: selectedHardMission.querySelector('.mission-content')?.innerHTML || ''
+            },
             tongMode: gameState.tongMode,
             tongTagIndexes: tongTagIndexes
         };
@@ -473,7 +480,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (roomId) {
                 localStorage.setItem('roomId', roomId);
                 ws.send(JSON.stringify({ type: 'joinRoom', roomId }));
-                isHost = false;
+                window.isHost = false;
                 if (timeCounter) timeCounter.style.display = 'none';
                 closePopup();
             } else {
