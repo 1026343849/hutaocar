@@ -108,6 +108,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         const state = {
             roundCounter: gameState.roundCounter,
+            bpMode: gameState.bpMode,
             characters: Array.from(characterBoxes).map((box) => ({
                 name: box.querySelector('.character-name').textContent,
                 image: box.querySelector('.character-image').src
@@ -382,6 +383,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         const state = {
             roundCounter: gameState.roundCounter,
+            bpMode: gameState.bpMode,
             characters: Array.from(characterBoxes).map((box) => ({
                 name: box.querySelector('.character-name').textContent,
                 image: box.querySelector('.character-image').src
@@ -409,6 +411,19 @@ document.addEventListener('DOMContentLoaded', function () {
     function updateGameState(state) {
         // 更新轮数
         roundCounterDisplay.textContent = `当前轮数：${state.roundCounter}`;
+        
+        // 更新BP模式显示
+        const bpModeDisplay = document.getElementById('bpModeDisplay');
+        if (bpModeDisplay && state.bpMode) {
+            const modeName = state.bpMode === 'global' ? '全局' : 
+                             state.bpMode === 'personal' ? '个人' : '关闭';
+            bpModeDisplay.textContent = `BP模式: ${modeName}`;
+            
+            // 如果不是主持人，也更新本地的gameState.bpMode
+            if (!window.isHost && window.gameState) {
+                window.gameState.bpMode = state.bpMode;
+            }
+        }
 
         // 更新角色卡片
         state.characters.forEach((character, index) => {

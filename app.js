@@ -62,6 +62,17 @@ document.addEventListener('DOMContentLoaded', function () {
             gameState.bpMode = newMode;
             bpButton.textContent = `BP模式：${getModeName(newMode)}`;
             bpButton.dataset.mode = newMode;
+            
+            // 更新状态栏的BP模式显示
+            const bpModeDisplay = document.getElementById('bpModeDisplay');
+            if (bpModeDisplay) {
+                bpModeDisplay.textContent = `BP模式: ${getModeName(newMode)}`;
+            }
+            
+            // 如果是主持人，触发同步
+            if (window.isHost === true && window.sendGameState) {
+                setTimeout(() => window.sendGameState(), 500);
+            }
         }
     });
 
@@ -85,6 +96,12 @@ document.addEventListener('DOMContentLoaded', function () {
         bpButton.disabled = false;
         startButton.disabled = false;
         roundCounterDisplay.textContent = '当前轮数：0';
+        
+        // 重置BP模式显示
+        const bpModeDisplay = document.getElementById('bpModeDisplay');
+        if (bpModeDisplay) {
+            bpModeDisplay.textContent = 'BP模式: 未开始';
+        }
 
         // 清空角色卡片
         characterBoxes.forEach(box => {
@@ -144,6 +161,13 @@ document.addEventListener('DOMContentLoaded', function () {
             gameState.lastRoundTime = now; // 初始化上一轮时间
             bpButton.disabled = true;
             resetButton.style.display = 'block'; // 使用block而不是inline-block
+            
+            // 更新BP模式显示
+            const bpModeDisplay = document.getElementById('bpModeDisplay');
+            if (bpModeDisplay) {
+                bpModeDisplay.textContent = `BP模式: ${getModeName(gameState.bpMode)}`;
+            }
+            
             // 启动定时器，实时更新总用时和本轮用时
             gameState.timerInterval = setInterval(() => {
                 const currentTime = Date.now();
@@ -160,6 +184,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 window.historyData.push({ roundTime, players: window.lastRoundPlayers });
                 gameState.totalTime += roundTime;
             }
+        }
+        
+        // 无论是否是首轮，都确保BP模式显示是最新的
+        const bpModeDisplay = document.getElementById('bpModeDisplay');
+        if (bpModeDisplay) {
+            bpModeDisplay.textContent = `BP模式: ${getModeName(gameState.bpMode)}`;
         }
 
         // 增加轮数
@@ -760,4 +790,11 @@ document.addEventListener('DOMContentLoaded', function () {
         tongModeButton.style.backgroundColor = '#2ecc71'; // 绿色
         tongModeButton.style.color = 'white';
     });
+
+    // 全局触发同步的辅助函数
+    window.triggerSync = function() {
+        if (window.isHost === true && window.sendGameState) {
+            setTimeout(() => window.sendGameState(), 500);
+        }
+    };
 });
