@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function () {
     function initializeBPButton() {
         bpButton.textContent = `BP模式：${getModeName(gameState.bpMode)}`;
         bpButton.dataset.mode = gameState.bpMode;
-        bpButton.className = `bp-button ${gameState.bpMode}`;
     }
     initializeBPButton();
 
