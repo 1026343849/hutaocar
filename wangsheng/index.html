@@ -215,11 +215,12 @@
     </div>
 
     <div class="content">
-        <img src="https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png" alt="胡桃" class="hutao-image">
+        <img src="https://upload-bbs.mihoyo.com/upload/2022/11/11/19e170d1331db4b096ba4590a987e41b_5353502229011254433.png" alt="胡桃" class="hutao-image">
         
         <div class="button-container">
-            <a href="rules/index.html" class="action-button">游戏规则</a>
             <a href="#" class="action-button" id="createRoomButton">创建房间</a>
+            <a href="#" class="action-button" id="joinRoomButton">加入房间</a>
+            <a href="rules/index.html" class="action-button">游戏规则</a>
         </div>
     </div>
 
@@ -236,6 +237,12 @@
             document.getElementById('createRoomButton').addEventListener('click', function(e) {
                 e.preventDefault();
                 alert('房间创建功能正在开发中，敬请期待！');
+            });
+            
+            // 加入房间按钮点击事件
+            document.getElementById('joinRoomButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('房间加入功能正在开发中，敬请期待！');
             });
             
             // 页面载入动画
