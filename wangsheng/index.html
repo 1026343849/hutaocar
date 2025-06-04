@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>往生渡厄 · 幽冥巡游</title>
+    <title>往生堂</title>
     <link rel="icon" href="https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png" type="image/png">
     <style>
         :root {
@@ -27,6 +27,11 @@
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
         }
         
         .header {
@@ -37,6 +42,7 @@
             position: relative;
             overflow: hidden;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
         }
         
         .header::before {
@@ -65,102 +71,91 @@
             font-size: 1.1rem;
             opacity: 0.9;
         }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        .rule-card {
-            background-color: var(--card-bg);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            border-left: 4px solid var(--card-border);
-        }
-
-        .rule-card h2 {
-            color: var(--highlight-color);
-            margin-top: 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 0.5rem;
-            font-size: 1.8rem;
-        }
-
-        .rule-list {
-            padding-left: 1.5rem;
+        
+        .hutao-image {
+            width: auto;
+            height: 12em;
+            margin: 2rem auto;
+            display: block;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(153, 0, 0, 0.7));
+            animation: float 3s ease-in-out infinite;
         }
         
-        .rule-list li {
-            margin-bottom: 0.7rem;
-            position: relative;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
         }
         
-        /* 仅为无序列表(ul)添加红点，有序列表(ol)不添加 */
-        ul.rule-list li::before {
-            content: '•';
-            color: var(--highlight-color);
-            position: absolute;
-            left: -1rem;
-            font-weight: bold;
+        .hutao-image:hover {
+            transform: scale(1.05);
         }
         
-        /* 移除有序列表(ol)默认样式并自定义 */
-        ol.rule-list {
-            list-style: none;
-            counter-reset: item;
-        }
-        
-        ol.rule-list li {
-            counter-increment: item;
-        }
-        
-        ol.rule-list li::before {
-            content: counter(item) ".";
-            color: var(--text-color);
-            position: absolute;
-            left: -1.5rem;
-            font-weight: bold;
-        }
-        
-        .element-grid, .boss-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        
-        .element-item, .boss-item {
-            background-color: rgba(100, 50, 50, 0.5);
-            border-radius: 6px;
-            padding: 0.5rem;
+        .content {
             text-align: center;
-            border: 1px solid var(--card-border);
-            transition: transform 0.2s ease, background-color 0.2s ease;
+            max-width: 800px;
+            width: 100%;
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         
-        .element-item:hover, .boss-item:hover {
-            transform: translateY(-3px);
-            background-color: rgba(120, 60, 60, 0.7);
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 300px;
         }
         
-        .card-list {
-            margin: 1rem 0;
+        .action-button {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            display: block;
         }
         
-        .card-item {
-            background-color: rgba(80, 40, 40, 0.6);
-            border-radius: 6px;
-            padding: 0.8rem;
-            margin-bottom: 0.8rem;
-            border-left: 3px solid var(--card-border);
+        .action-button::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+            transform: scale(0);
+            transition: transform 0.5s;
+            border-radius: 50%;
         }
         
-        .card-item h4 {
-            margin: 0 0 0.5rem 0;
-            color: var(--highlight-color);
+        .action-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .action-button:hover::before {
+            transform: scale(1);
+        }
+        
+        .action-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
         
         .back-button {
@@ -192,7 +187,7 @@
             text-align: center;
             padding: 2rem 0;
             background-color: rgba(20, 10, 10, 0.7);
-            margin-top: 2rem;
+            width: 100%;
             color: rgba(255, 255, 255, 0.7);
             font-size: 0.9rem;
         }
@@ -201,275 +196,30 @@
             .header h1 {
                 font-size: 2rem;
             }
-            .container {
+            .content {
                 padding: 1rem;
             }
-            .rule-card {
-                padding: 1.2rem;
+            .hutao-image {
+                height: 10em;
             }
-            .element-grid, .boss-grid {
-                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            .button-container {
+                max-width: 90%;
             }
-        }
-
-        .draw-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
-            margin: 1rem 0;
-        }
-        
-        .draw-item {
-            background-color: rgba(80, 40, 40, 0.6);
-            border-radius: 6px;
-            padding: 0.8rem;
-            margin-bottom: 0.8rem;
-            border-left: 3px solid var(--card-border);
-            transition: transform 0.2s ease, background-color 0.2s ease;
-        }
-        
-        .draw-item:hover {
-            transform: translateY(-3px);
-            background-color: rgba(100, 50, 50, 0.7);
-        }
-        
-        .draw-item h4 {
-            margin: 0 0 0.5rem 0;
-            color: var(--highlight-color);
-            font-size: 1.1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 0.3rem;
-        }
-        
-        .draw-item p {
-            margin: 0;
-            line-height: 1.4;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>往生渡厄 · 幽冥巡游</h1>
-        <p>胡桃主题桌游规则</p>
-        <div style="margin-top: 15px; padding: 8px 20px; background-color: rgba(150, 30, 30, 0.7); display: inline-block; border-radius: 20px; font-weight: bold; color: #ffe0e0; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);">
-            施工中，敬请期待
-        </div>
+        <h1>往生堂</h1>
+        <p>胡桃主题游戏空间</p>
     </div>
 
-    <div class="container">
-        <div class="rule-card">
-            <h2>基本规则</h2>
-            <ol class="rule-list">
-                <li>每名玩家只有一条命，死亡则进入幽魂模式，幽魂模式下不可主动更换角色并且禁AEQ</li>
-                <li>每名玩家初始只有一个元素槽，只能使用所镶嵌的元素石所对应元素的角色，抽取到新元石时，可以进行替换（仅限每个区域开始时）</li>
-                <li>有全队回血技能的角色仅能使用一个点，有自回血的角色仅能使用三个点。使用了金箔视为全队回血角色，使用了的回血武器和圣遗物角色视为有自回血的角色。</li>
-                <li>全局bp，残血时直接换人不算死亡，换区域时须更换角色(幽魂除外)，换下去的角色进入bp</li>
-                <li>旅行者没有使用次数限制（除水主）</li>
-                <li>默认禁用回血药</li>
-            </ol>
-        </div>
-
-        <div class="rule-card">
-            <h2>游戏流程</h2>
-            <ol class="rule-list">
-                <li>开局时：<br>1. 地主骰四个烟花骰子决定每名玩家的天赋，不重复（详见天赋列表）<br>2. 每名玩家骰个帽子决定初始元素石（详见元素列表）</li>
-                <li>新区域开始时：<br>1. 所有玩家消耗血梅进行抽卡（血梅不使用则会消散）<br>2. 可选择是否替换镶嵌的元素石<br>3. 更换新角色</li>
-                <li>血梅获取：<br>1. 部分怪物完成特殊挑战全队获得一次（详见挑战列表）</li>
-                <li>最后一个区域结束时：<br>1. 若队伍中幽魂多于两人时，则本车「普通通关」<br>2. 若队伍中幽魂不多于两人时则解锁最终Boss，地主骰帽子决定最终Boss（详见boss列表）<br>3. 战胜最终Boss则本车「完美通关！」</li>
-            </ol>
-        </div>
-
-        <div class="rule-card">
-            <h2>天赋列表</h2>
-            <div class="card-list">
-                <div class="card-item">
-                    <h4>1.「说服」</h4>
-                    <p>每个区域可对单个怪点发动一次，检定成功（检定牌大于等于16）视为该怪点已被战胜</p>
-                </div>
-                <div class="card-item">
-                    <h4>2.「星移势转」</h4>
-                    <p>每次你死亡时发动一次，检定成功（检定牌大于等于16）则选择一名玩家替你死亡</p>
-                </div>
-                <div class="card-item">
-                    <h4>3.「酌盈剂虚」</h4>
-                    <p>每个区域可对选择任意两名玩家发动一次，你可以互换两个人所拥有的元素石</p>
-                </div>
-                <div class="card-item">
-                    <h4>4.「救苦渡厄」</h4>
-                    <p>每个区域可对其他玩家发动一次，检定成功（检定牌大于等于16）则复活该玩家</p>
-                </div>
-                <div class="card-item">
-                    <h4>5.「幽幽大行军」</h4>
-                    <p>每个区域可对其他玩家发动一次，你可以驱使幽魂解锁AEQ中的一个技能</p>
-                </div>
-                <div class="card-item">
-                    <h4>6.「无可奈何燃花作香」</h4>
-                    <p>开局选角后立即死亡，你处在幽魂状态下可以A</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="rule-card">
-            <h2>元素列表</h2>
-            <div class="element-grid">
-                <div class="element-item">1-2. 火</div>
-                <div class="element-item">3-5. 水</div>
-                <div class="element-item">6-8. 冰</div>
-                <div class="element-item">9-11. 雷</div>
-                <div class="element-item">12-14. 风</div>
-                <div class="element-item">15-17. 岩</div>
-                <div class="element-item">18-20. 草</div>
-            </div>
-        </div>
-
-        <div class="rule-card">
-            <h2>抽卡列表</h2>
-            <div class="draw-grid">
-                <div class="draw-item">
-                    <h4>1. 获得火元素石</h4>
-                    <p>全区域有效</p>
-                </div>
-                <div class="draw-item">
-                    <h4>2. 获得水元素石</h4>
-                    <p>全区域有效</p>
-                </div>
-                <div class="draw-item">
-                    <h4>3. 获得冰元素石</h4>
-                    <p>全区域有效</p>
-                </div>
-                <div class="draw-item">
-                    <h4>4. 获得雷元素石</h4>
-                    <p>全区域有效</p>
-                </div>
-                <div class="draw-item">
-                    <h4>5. 获得风元素石</h4>
-                    <p>全区域有效</p>
-                </div>
-                <div class="draw-item">
-                    <h4>6. 获得岩元素石</h4>
-                    <p>全区域有效</p>
-                </div>
-                <div class="draw-item">
-                    <h4>7. 获得草元素石</h4>
-                    <p>全区域有效</p>
-                </div>
-                <div class="draw-item">
-                    <h4>8. 元素槽+1</h4>
-                    <p>全区域有效</p>
-                </div>
-                <div class="draw-item">
-                    <h4>9. 获得两个「血梅」</h4>
-                    <p>当前区域有效</p>
-                </div>
-                <div class="draw-item">
-                    <h4>10. 获得「乾坤泰卦帽」</h4>
-                    <p>全区域有效</p>
-                </div>
-                <div class="draw-item">
-                    <h4>11. 获得技能「起死回骸」</h4>
-                    <p>全局仅可发动一次，复活所有幽魂</p>
-                </div>
-                <div class="draw-item">
-                    <h4>12. 获得技能「水与正义」</h4>
-                    <p>全局仅可发动一次，当前出战角色被芙宁娜奶满再全部扣到半血</p>
-                </div>
-                <div class="draw-item">
-                    <h4>13. 获得技能「白垩之术」</h4>
-                    <p>全局仅可发动一次，你可以让其他玩家强行替换成你指定的角色</p>
-                </div>
-                <div class="draw-item">
-                    <h4>14. 获得物品「提瓦特煎蛋」</h4>
-                    <p>使一个被bp的角色恢复使用次数</p>
-                </div>
-                <div class="draw-item">
-                    <h4>15. 获得物品「奇怪的乌乌黑蛋」</h4>
-                    <p>幽魂状态下使用可更换一次角色</p>
-                </div>
-                <div class="draw-item">
-                    <h4>16. 获得物品「留念匣」</h4>
-                    <p>可保留「血梅」到下个区域，当你死亡时，你可以消耗一个「血梅」复活</p>
-                </div>
-                <div class="draw-item">
-                    <h4>17. 获得技能「运变惊奇」</h4>
-                    <p>你的检定牌+1（重复获得该技能可叠加）</p>
-                </div>
-                <div class="draw-item">
-                    <h4>18. 获得即时效果「本大爷还没有输！」</h4>
-                    <p>当前区域死亡获得一个「血梅」</p>
-                </div>
-                <div class="draw-item">
-                    <h4>19. 获得即时效果「炽烈的还魂诗」</h4>
-                    <p>当前区域该玩家无限复活</p>
-                </div>
-                <div class="draw-item">
-                    <h4>20. 获得即时效果「赦免宣告」</h4>
-                    <p>当前区域选角色不受元素限制</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="rule-card">
-            <h2>挑战列表（-6路线）</h2>
-            <div class="card-list">
-                <div class="card-item">
-                    <h4>1. 渊下宫</h4>
-                    <p>常夜灵庙遗迹守卫：一次唤醒两个遗迹守卫和遗迹重机，且挑战过程无人死亡<br>
-                    常夜灵庙遗迹歼击者：一次性拉三遗迹歼击者同时钻地逃课成功</p>
-                </div>
-                <div class="card-item">
-                    <h4>2. 层岩巨渊</h4>
-                    <p>荧光狭道冰龙蜥：在冰龙蜥完全转阶段直接击杀（在冰附魔后的第一个起跳之前）<br>
-                    断桥前遗迹重机：击破弱点三次</p>
-                </div>
-                <div class="card-item">
-                    <h4>3. 枫丹</h4>
-                    <p>枫丹第一个怪点：在不使用荒芒机制的情况击败大型狂蔓隙境原体和大型碎石隙境原体<br>
-                    厄里那斯左侧：使用羽球击破两次遗迹龙兽·空寻弱点</p>
-                </div>
-                <div class="card-item">
-                    <h4>4. 沉玉谷+层岩上</h4>
-                    <p>水边三玄文兽：淹死三玄文兽且无人受伤<br>
-                    层岩上遗迹重机：在在遗迹守卫和遗迹重机转圈之前击杀</p>
-                </div>
-                <div class="card-item">
-                    <h4>5. 须弥</h4>
-                    <p>往昔的桓那兰那：击杀处于狂化下的噬雷·兽境猎犬和噬岩·兽境猎犬<br>
-                    荼诃之座下方双丘王：击杀不处在护盾状态的丘丘岩盔王和丘丘雷兜王，且挑战过程无人死亡</p>
-                </div>
-                <div class="card-item">
-                    <h4>6. 稻妻</h4>
-                    <p>踏鞴沙冰萤术：需用淹死的方式完成击杀</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="rule-card">
-            <h2>Boss列表</h2>
-            <div class="boss-grid">
-                <div class="boss-item">1-2. 「公子」</div>
-                <div class="boss-item">3-4. 「女士」</div>
-                <div class="boss-item">5-6. 「正机之神」</div>
-                <div class="boss-item">7-8. 「仆人」</div>
-                <div class="boss-item">9-10. 祸津御建鸣神命</div>
-                <div class="boss-item">11-12. 北风的王狼</div>
-                <div class="boss-item">13-14. 若陀龙王</div>
-                <div class="boss-item">15-16. 阿佩普的绿洲守望者</div>
-                <div class="boss-item">17-18. 吞星之鲸</div>
-                <div class="boss-item">19-20. 蚀灭的源焰之主</div>
-            </div>
-        </div>
-
-        <div class="rule-card">
-            <h2>补充说明</h2>
-            <ul class="rule-list">
-                <li>幽魂状态下的角色再次死亡则下个传送点才可加入战斗</li>
-                <li>幽魂状态下的角色被复活后需更换角色才可加入战斗</li>
-                <li>即时效果立刻生效，主动技能可选择时机发动，物品可以选择时机使用</li>
-                <li>全局仅可发动一次的技能发动后，其他人再抽到该技能也无法发动</li>
-                <li>说服发动成功后被视为战胜的怪物无法进行特殊挑战，被视为战胜的怪物打死无事发生</li>
-            </ul>
-            <p style="margin-top: 20px; color: #ffcccc; font-weight: bold;">「乾坤泰卦帽」：当你拥有七个血梅时，你可无视所有规则</p>
-            <p style="color: #ffcccc; font-weight: bold;">「幽蝶能留一缕芳」：若全队所有人都成为幽魂且无人使用复活技能，用爆炸箱选出一人用胡桃单通该区域剩下点位</p>
+    <div class="content">
+        <img src="https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png" alt="胡桃" class="hutao-image">
+        
+        <div class="button-container">
+            <a href="rules/index.html" class="action-button">游戏规则</a>
+            <a href="#" class="action-button" id="createRoomButton">创建房间</a>
         </div>
     </div>
 
@@ -482,21 +232,14 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // 创建房间按钮点击事件
+            document.getElementById('createRoomButton').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('房间创建功能正在开发中，敬请期待！');
+            });
+            
             // 页面载入动画
             document.body.classList.add('loaded');
-            
-            // 平滑滚动效果
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId !== '#') {
-                        document.querySelector(targetId).scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
         });
     </script>
 </body>
