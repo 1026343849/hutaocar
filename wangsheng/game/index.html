@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>往生堂 - 游戏房间</title>
+    <link rel="icon" href="https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png" type="image/png">
+    <style>
+        :root {
+            --primary-color: #990000;
+            --secondary-color: #612626;
+            --bg-color: #2a1d1d;
+            --text-color: #e6d0d0;
+            --highlight-color: #ff9c9c;
+            --card-bg: rgba(70, 40, 40, 0.85);
+            --card-border: #723636;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            background-image: url('https://img.miyoushe.com/community/theme/d7d9df6c5df5f7e1.png');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://act-upload.mihoyo.com/ys-obc/2023/05/17/183046623/fd38f147f85e8ff19ff3f95faa5e8a9a_8320946835914499085.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.2;
+            z-index: -1;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #ffe0e0;
+        }
+
+        .header p {
+            margin: 0.5rem 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .main-container {
+            max-width: 1000px;
+            width: 100%;
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .game-panel {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-top: 2rem;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border-left: 4px solid var(--card-border);
+        }
+        
+        .room-info {
+            background-color: rgba(50, 30, 30, 0.7);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .room-code-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        .room-code {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--highlight-color);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+        
+        .room-status {
+            font-size: 1.2rem;
+            padding: 0.5rem 1rem;
+            background-color: rgba(0, 150, 50, 0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 150, 50, 0.4);
+        }
+        
+        .player-list {
+            margin-top: 2rem;
+        }
+        
+        .player-list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+            margin-top: 0;
+        }
+        
+        .player-list-header h2 {
+            color: var(--highlight-color);
+            margin: 0;
+        }
+        
+        .player-list-status {
+            font-size: 1.1rem;
+            padding: 0.4rem 1rem;
+            background-color: rgba(153, 0, 0, 0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(153, 0, 0, 0.4);
+        }
+        
+        .player-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .player-card {
+            background-color: rgba(80, 40, 40, 0.6);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--card-border);
+            position: relative;
+        }
+        
+        .player-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 0.5rem;
+            border: 2px solid var(--card-border);
+        }
+        
+        .player-name {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+        
+        .player-status {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .game-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 2rem;
+            justify-content: center;
+        }
+        
+        .action-button {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            font-weight: bold;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+        }
+        
+        .action-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .action-button:disabled {
+            background: linear-gradient(to right, #666, #444);
+            cursor: not-allowed;
+            opacity: 0.7;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .action-button:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .secondary-button {
+            background: rgba(100, 100, 100, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .copy-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-left: 1rem;
+        }
+        
+        .copy-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--highlight-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .loading-text {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            z-index: 100;
+        }
+
+        .back-button:hover {
+            background-color: #7a0000;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            background-color: rgba(20, 10, 10, 0.7);
+            margin-top: 2rem;
+            width: 100%;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        .error-message {
+            background-color: rgba(150, 20, 20, 0.3);
+            border: 1px solid rgba(150, 20, 20, 0.5);
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .main-container {
+                padding: 1rem;
+            }
+            .game-panel {
+                padding: 1.2rem;
+            }
+            .room-code {
+                font-size: 1.5rem;
+            }
+            .player-container {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>往生堂 - 游戏房间</h1>
+        <p>幽冥巡游多人游戏</p>
+    </div>
+
+    <div class="main-container">
+        <div class="game-panel">
+            <div class="room-info">
+                <h3>房间代码</h3>
+                <div class="room-code-container">
+                    <div class="room-code" id="roomCode">加载中...</div>
+                    <button class="copy-button" id="copyRoomCode">复制代码</button>
+                </div>
+            </div>
+            
+            <div class="error-message" id="errorMessage">
+                无法连接到服务器，请检查网络连接后重试。
+            </div>
+            
+            <div class="player-list">
+                <div class="player-list-header">
+                    <h2>玩家列表</h2>
+                    <div class="player-list-status" id="roomStatus">等待中</div>
+                </div>
+                <div class="player-container" id="playerContainer">
+                    <!-- 玩家卡片将通过JavaScript动态生成 -->
+                    <div class="player-card">
+                        <img src="https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png" class="player-avatar">
+                        <div class="player-name">胡桃 (你)</div>
+                        <div class="player-status">房主</div>
+                    </div>
+                    <div class="player-card">
+                        <img src="https://upload-bbs.mihoyo.com/upload/2022/11/11/19e170d1331db4b096ba4590a987e41b_5353502229011254433.png" class="player-avatar">
+                        <div class="player-name">等待中...</div>
+                        <div class="player-status">未准备</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="game-actions">
+                <button class="action-button" id="startGameButton">开始游戏</button>
+                <button class="action-button" id="readyButton">准备就绪</button>
+                <button class="action-button secondary-button" id="leaveRoomButton">退出房间</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">正在创建房间...</div>
+    </div>
+
+    <a href="../index.html" class="back-button" title="返回主页">←</a>
+
+    <div class="footer">
+        <p>© 2023 往生堂. 保留所有权利.</p>
+        <p>由胡桃监制</p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 建立WebSocket连接
+            const ws = new WebSocket('wss://newws.hutaocar.cn:4001');
+            
+            // DOM元素
+            const roomCodeElement = document.getElementById('roomCode');
+            const copyRoomCodeButton = document.getElementById('copyRoomCode');
+            const startGameButton = document.getElementById('startGameButton');
+            const readyButton = document.getElementById('readyButton');
+            const leaveRoomButton = document.getElementById('leaveRoomButton');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const errorMessage = document.getElementById('errorMessage');
+            const roomStatusElement = document.getElementById('roomStatus');
+            const playerContainer = document.getElementById('playerContainer');
+            
+            // 玩家状态
+            let isHost = false;
+            let currentRoomId = null;
+            let myPlayerId = Date.now().toString(); // 简单生成一个唯一ID
+            let playerName = "胡桃" + Math.floor(Math.random() * 1000); // 随机生成名字
+            let playerAvatar = "https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png";
+            let isReady = false;
+            let players = [];
+
+            // 默认先隐藏所有游戏控制按钮，等角色确定后再显示
+            startGameButton.style.display = 'none';
+            readyButton.style.display = 'none';
+
+            // WebSocket 连接成功
+            ws.onopen = () => {
+                console.log('WebSocket 连接成功');
+                
+                // 根据URL参数判断是否为加入模式
+                const urlParams = new URLSearchParams(window.location.search);
+                const joinRoomId = urlParams.get('room');
+                
+                if (joinRoomId) {
+                    // 加入现有房间时，先显示输入的房间号
+                    roomCodeElement.textContent = joinRoomId;
+                    // 其他逻辑保持不变
+                    isHost = false;
+                    loadingOverlay.querySelector('.loading-text').textContent = '正在加入房间...';
+                    ws.send(JSON.stringify({ type: 'joinRoom', roomId: joinRoomId }));
+                    startGameButton.style.display = 'none';
+                    readyButton.style.display = 'block';
+                    showError("正在加入房间：" + joinRoomId);
+                } else {
+                    // 创建新房间
+                    ws.send(JSON.stringify({ type: 'createRoom' }));
+                    isHost = true;
+                    showError("服务器连接成功，正在创建房间...");
+                }
+            };
+
+            // WebSocket 连接错误
+            ws.onerror = (error) => {
+                console.error('WebSocket 连接错误:', error);
+                showError("无法连接到游戏服务器，请检查网络连接后重试");
+                loadingOverlay.querySelector('.loading-text').textContent = '连接失败';
+            };
+
+            // WebSocket 消息处理
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
+                console.log('收到消息:', data);
+                
+                switch (data.type) {
+                    case 'roomCreated':
+                        currentRoomId = data.roomId;
+                        roomCodeElement.textContent = currentRoomId;
+                        loadingOverlay.style.display = 'none';
+                        
+                        // 将自己添加为房主
+                        const hostPlayer = {
+                            id: myPlayerId,
+                            name: playerName,
+                            avatar: playerAvatar,
+                            isHost: true,
+                            isReady: true
+                        };
+                        players = [hostPlayer]; // 直接设置为数组，而不是添加
+                        updatePlayerList();
+                        
+                        // 确保房主看到开始游戏按钮
+                        startGameButton.style.display = 'block';
+                        readyButton.style.display = 'none';
+                        startGameButton.disabled = true;
+                        startGameButton.title = "等待其他玩家准备就绪";
+                        
+                        // 显示成功创建提示
+                        showError("房间创建成功！房间号：" + currentRoomId);
+                        
+                        // 发送玩家信息
+                        sendPlayerInfo();
+                        break;
+                        
+                    case 'roomJoined':
+                        currentRoomId = data.roomId;
+                        roomCodeElement.textContent = currentRoomId;
+                        loadingOverlay.style.display = 'none';
+                        showError("成功加入房间！");
+                        
+                        // 加入时清空并添加自己
+                        const joinPlayer = {
+                            id: myPlayerId,
+                            name: playerName,
+                            avatar: playerAvatar,
+                            isHost: false,
+                            isReady: isReady
+                        };
+                        
+                        players = [joinPlayer]; // 直接设置为数组，而不是添加
+                        updatePlayerList();
+                        
+                        // 确保普通玩家看到准备按钮
+                        startGameButton.style.display = 'none';
+                        readyButton.style.display = 'block';
+                        
+                        // 发送玩家信息
+                        sendPlayerInfo();
+                        break;
+                        
+                    case 'allPlayers':
+                        // 接收房间内所有玩家信息
+                        // 更新为过滤掉重复的玩家ID
+                        const uniquePlayers = [];
+                        const playerIds = new Set();
+                        
+                        // 先添加自己，确保自己在列表中
+                        const selfPlayer = players.find(p => p.id === myPlayerId);
+                        if (selfPlayer) {
+                            uniquePlayers.push(selfPlayer);
+                            playerIds.add(myPlayerId);
+                        }
+                        
+                        // 添加其他玩家，避免重复
+                        data.players.forEach(player => {
+                            if (!playerIds.has(player.id)) {
+                                uniquePlayers.push(player);
+                                playerIds.add(player.id);
+                            }
+                        });
+                        
+                        players = uniquePlayers;
+                        updatePlayerList();
+                        updateRoomStatus("等待中 (" + players.length + "/4)");
+                        break;
+                        
+                    case 'playerJoined':
+                        // 新玩家加入
+                        const newPlayer = data.player;
+                        // 检查是否已存在该玩家
+                        const existingPlayerIndex = players.findIndex(p => p.id === newPlayer.id);
+                        if (existingPlayerIndex === -1) {
+                            players.push(newPlayer);
+                            updatePlayerList();
+                            updateRoomStatus("等待中 (" + players.length + "/4)");
+                        }
+                        break;
+                        
+                    case 'playerLeft':
+                        // 玩家离开
+                        players = players.filter(p => p.id !== data.playerId);
+                        updatePlayerList();
+                        updateRoomStatus("等待中 (" + players.length + "/4)");
+                        break;
+                        
+                    case 'playerReady':
+                        // 玩家准备状态变更
+                        const player = players.find(p => p.id === data.playerId);
+                        if (player) {
+                            player.isReady = data.isReady;
+                            updatePlayerList();
+                        }
+                        break;
+                        
+                    case 'gameStarted':
+                        // 游戏开始
+                        updateRoomStatus("游戏中");
+                        showError("游戏开始！");
+                        break;
+                        
+                    case 'playerCount':
+                        // 显示玩家数量
+                        const maxPlayers = data.maxPlayers || 4; // 默认为4
+                        updateRoomStatus("等待中 (" + data.count + "/" + maxPlayers + ")");
+                        break;
+                        
+                    case 'error':
+                        showError(data.message);
+                        loadingOverlay.style.display = 'none';
+                        
+                        // 如果是加入失败，给用户显示具体错误信息并提供返回选择
+                        if (data.message.includes("房间不存在") || data.message.includes("无法加入")) {
+                            const confirmGoBack = confirm(data.message + "\n是否返回主页？");
+                            if (confirmGoBack) {
+                                window.location.href = '../index.html';
+                            }
+                        }
+                        break;
+                        
+                    case 'roomClosed':
+                        if (!isHost) {
+                            showError("房主已离开，房间已关闭");
+                            setTimeout(() => {
+                                window.location.href = '../index.html';
+                            }, 2000);
+                        }
+                        break;
+                }
+            };
+            
+            // WebSocket 连接关闭
+            ws.onclose = () => {
+                console.log('WebSocket 连接已关闭');
+                showError("服务器连接已断开，请刷新页面重试");
+            };
+            
+            // 发送玩家信息
+            function sendPlayerInfo() {
+                if (currentRoomId) {
+                    ws.send(JSON.stringify({ 
+                        type: 'playerInfo', 
+                        roomId: currentRoomId,
+                        player: {
+                            id: myPlayerId,
+                            name: playerName,
+                            avatar: playerAvatar,
+                            isHost: isHost,
+                            isReady: isReady
+                        }
+                    }));
+                }
+            }
+            
+            // 更新玩家列表
+            function updatePlayerList() {
+                playerContainer.innerHTML = '';
+                
+                players.forEach(player => {
+                    const playerCard = document.createElement('div');
+                    playerCard.className = 'player-card';
+                    playerCard.setAttribute('data-player-id', player.id);
+                    
+                    playerCard.innerHTML = `
+                        <img src="${player.avatar}" class="player-avatar">
+                        <div class="player-name">${player.name}${player.id === myPlayerId ? ' (你)' : ''}</div>
+                        <div class="player-status">${player.isHost ? '房主' : (player.isReady ? '已准备' : '未准备')}</div>
+                    `;
+                    
+                    if (player.isReady) {
+                        playerCard.querySelector('.player-status').style.color = '#6aff6a';
+                    }
+                    
+                    playerContainer.appendChild(playerCard);
+                });
+                
+                // 检查是否所有非房主玩家都已准备
+                if (isHost) {
+                    const otherPlayers = players.filter(p => !p.isHost);
+                    const allReady = otherPlayers.every(p => p.isReady);
+                    const hasEnoughPlayers = players.length >= 2;
+                    
+                    if (allReady && hasEnoughPlayers) {
+                        startGameButton.disabled = false;
+                        startGameButton.title = "所有玩家已准备就绪，可以开始游戏";
+                    } else {
+                        startGameButton.disabled = true;
+                        startGameButton.title = "等待所有玩家准备就绪";
+                    }
+                }
+            }
+            
+            // 复制房间代码
+            copyRoomCodeButton.addEventListener('click', function() {
+                const roomCode = roomCodeElement.textContent;
+                if (roomCode !== '加载中...') {
+                    navigator.clipboard.writeText(roomCode)
+                        .then(() => {
+                            copyRoomCodeButton.textContent = '已复制';
+                            setTimeout(() => {
+                                copyRoomCodeButton.textContent = '复制代码';
+                            }, 2000);
+                        })
+                        .catch(err => {
+                            console.error('复制失败: ', err);
+                            copyRoomCodeButton.textContent = '复制失败';
+                            setTimeout(() => {
+                                copyRoomCodeButton.textContent = '复制代码';
+                            }, 2000);
+                        });
+                }
+            });
+            
+            // 开始游戏按钮点击事件
+            startGameButton.addEventListener('click', function() {
+                if (isHost) {
+                    // 检查所有玩家是否已准备
+                    const allReady = players.every(p => p.isHost || p.isReady);
+                    
+                    if (allReady && players.length >= 2) {
+                        ws.send(JSON.stringify({
+                            type: 'startGame',
+                            roomId: currentRoomId
+                        }));
+                    } else {
+                        showError("无法开始游戏：有玩家未准备就绪或人数不足");
+                    }
+                } else {
+                    showError("只有房主可以开始游戏");
+                }
+            });
+            
+            // 准备按钮点击事件
+            readyButton.addEventListener('click', function() {
+                if (!isHost) {
+                    isReady = !isReady;
+                    
+                    if (isReady) {
+                        readyButton.textContent = '取消准备';
+                        readyButton.style.background = 'linear-gradient(to right, #006600, #004400)';
+                    } else {
+                        readyButton.textContent = '准备就绪';
+                        readyButton.style.background = 'linear-gradient(to right, var(--primary-color), var(--secondary-color))';
+                    }
+                    
+                    // 发送准备状态
+                    ws.send(JSON.stringify({
+                        type: 'playerReady',
+                        roomId: currentRoomId,
+                        playerId: myPlayerId,
+                        isReady: isReady
+                    }));
+                } else {
+                    showError("房主无需准备");
+                }
+            });
+            
+            // 离开房间按钮点击事件
+            leaveRoomButton.addEventListener('click', function() {
+                if (confirm('确定要离开房间吗？')) {
+                    if (currentRoomId) {
+                        ws.send(JSON.stringify({
+                            type: 'leaveRoom',
+                            roomId: currentRoomId,
+                            playerId: myPlayerId
+                        }));
+                    }
+                    window.location.href = '../index.html';
+                }
+            });
+            
+            // 处理网络连接错误
+            function showError(message) {
+                errorMessage.textContent = message;
+                errorMessage.style.display = 'block';
+                setTimeout(() => {
+                    errorMessage.style.display = 'none';
+                }, 5000);
+            }
+            
+            // 更新房间状态
+            function updateRoomStatus(status) {
+                roomStatusElement.textContent = status;
+                
+                if (status.includes('游戏中')) {
+                    roomStatusElement.style.backgroundColor = 'rgba(0, 100, 150, 0.2)';
+                    roomStatusElement.style.borderColor = 'rgba(0, 100, 150, 0.4)';
+                } else if (status.includes('已满')) {
+                    roomStatusElement.style.backgroundColor = 'rgba(150, 100, 0, 0.2)';
+                    roomStatusElement.style.borderColor = 'rgba(150, 100, 0, 0.4)';
+                } else {
+                    roomStatusElement.style.backgroundColor = 'rgba(153, 0, 0, 0.2)';
+                    roomStatusElement.style.borderColor = 'rgba(153, 0, 0, 0.4)';
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

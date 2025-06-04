@@ -218,7 +218,7 @@
         <img src="https://upload-bbs.mihoyo.com/upload/2022/11/11/19e170d1331db4b096ba4590a987e41b_5353502229011254433.png" alt="胡桃" class="hutao-image">
         
         <div class="button-container">
-            <a href="#" class="action-button" id="createRoomButton">创建房间</a>
+            <a href="game/index.html" class="action-button">创建房间</a>
             <a href="#" class="action-button" id="joinRoomButton">加入房间</a>
             <a href="rules/index.html" class="action-button">游戏规则</a>
         </div>
@@ -233,16 +233,83 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 创建房间按钮点击事件
-            document.getElementById('createRoomButton').addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('房间创建功能正在开发中，敬请期待！');
-            });
-            
             // 加入房间按钮点击事件
             document.getElementById('joinRoomButton').addEventListener('click', function(e) {
                 e.preventDefault();
-                alert('房间加入功能正在开发中，敬请期待！');
+                
+                // 创建加入房间的弹窗
+                const overlay = document.createElement('div');
+                overlay.className = 'overlay';
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+                overlay.style.display = 'flex';
+                overlay.style.alignItems = 'center';
+                overlay.style.justifyContent = 'center';
+                overlay.style.zIndex = '1000';
+                document.body.appendChild(overlay);
+                
+                const popup = document.createElement('div');
+                popup.className = 'join-room-popup';
+                popup.style.backgroundColor = 'var(--card-bg)';
+                popup.style.padding = '2rem';
+                popup.style.borderRadius = '10px';
+                popup.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
+                popup.style.maxWidth = '400px';
+                popup.style.width = '90%';
+                popup.style.position = 'relative';
+                popup.style.borderLeft = '4px solid var(--card-border)';
+                
+                popup.innerHTML = `
+                    <h3 style="margin-top: 0; color: var(--highlight-color); text-align: center;">加入房间</h3>
+                    <p style="text-align: center; margin-bottom: 1.5rem; opacity: 0.8;">请输入房间号码</p>
+                    <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+                        <input type="text" id="roomIdInput" placeholder="请输入6位房间号" style="width: 60%; padding: 0.8rem; background-color: rgba(50, 30, 30, 0.7); border: 1px solid rgba(255, 255, 255, 0.2); color: white; border-radius: 5px; font-size: 1.1rem; text-align: center;">
+                    </div>
+                    <div style="display: flex; justify-content: center; gap: 1rem;">
+                        <button id="joinConfirmButton" style="background: linear-gradient(to right, var(--primary-color), var(--secondary-color)); color: white; border: none; border-radius: 30px; padding: 0.8rem 2rem; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease; font-weight: bold;">加入</button>
+                        <button id="joinCancelButton" style="background: rgba(80, 80, 80, 0.4); color: white; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 30px; padding: 0.8rem 2rem; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease;">取消</button>
+                    </div>
+                `;
+                
+                overlay.appendChild(popup);
+                
+                // 聚焦输入框
+                setTimeout(() => {
+                    document.getElementById('roomIdInput').focus();
+                }, 100);
+                
+                // 处理加入按钮点击事件
+                document.getElementById('joinConfirmButton').addEventListener('click', function() {
+                    const roomId = document.getElementById('roomIdInput').value.trim();
+                    if (roomId && roomId.length === 6) {
+                        window.location.href = `game/index.html?room=${roomId}`;
+                    } else {
+                        alert('请输入正确的6位房间号码');
+                    }
+                });
+                
+                // 处理取消按钮点击事件
+                document.getElementById('joinCancelButton').addEventListener('click', function() {
+                    document.body.removeChild(overlay);
+                });
+                
+                // 处理按键事件
+                document.getElementById('roomIdInput').addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        document.getElementById('joinConfirmButton').click();
+                    }
+                });
+                
+                // 点击空白处关闭弹窗
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === overlay) {
+                        document.body.removeChild(overlay);
+                    }
+                });
             });
             
             // 页面载入动画
