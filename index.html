@@ -2,291 +2,77 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>hutaocar</title>
-    <link rel="icon" href="https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png" type="image/png">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="hardmode.css"> 
-    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
-    <script>LA.init({id:"3M2oGTfSWji6ROQb",ck:"3M2oGTfSWji6ROQb"})</script>
-</head>
-<body>
-    <!-- 初始界面 -->
-    <div id="initialScreen">
-        <div style="text-align: center;">
-            <img src="https://upload-bbs.miyoushe.com/upload/2024/05/10/404686886/17350b7b4b6f4c5af3d5d5bcc4a52250_6220852643654440217.png"  
-                 style="width: auto; height: 8em;">
-        </div>
-        <h1>叫地主？</h1>
-        <button class="start-button" id="hostGameButton">主持游戏</button>
-        <button class="start-button" id="joinGameButton">加入游戏</button>
-        <div id="connectionStatus" style="margin-top: 10px; font-size: 14px; color: rgb(255, 187, 0); text-align: center;">
-            正在连接多人游戏服务器，可能需要1~30秒...
-        </div>
-        <h6 style="margin-top: 10px; font-size: 11px; color: gray; text-align: center;">
-            推荐使用电脑端主持游戏，主持人杀后台、掉线会使房间解散。
-        </h6>
-        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 10px;">
-            <button class="start-button" id="viewEventsButton">游戏设置</button>
-            <button class="start-button" id="exploreButton">本地模式</button>
-        </div>
-    </div>
-
-    <!-- 主游戏界面 -->
-    <div id="gameScreen" style="display: none;">
-        <!-- 新增状态栏 -->
-        <div class="status-bar">
-            <div class="status-item" id="roomCodeWrapper">
-                <span>房间代码: </span><span id="roomCodeDisplay"></span>
-                <button id="copyRoomCodeBtn" style="margin-left: 5px;">复制</button>
-            </div>
-            <div class="status-item" id="bpModeDisplay">BP模式: 未开始</div>
-            <div class="status-item" id="roundCounter">当前轮数：0</div>
-            <div class="status-item" id="timeCounter">总用时：00:00 | 本轮用时：00:00</div>
-            <div class="status-item" id="playerCountDisplay"></div>
-            <div class="status-bar-button-group">
-                <button class="sync-button status-item" id="syncButton" style="display: none;">同步数据</button>
-                <button class="start-button status-item" id="tongModeButton" style="display: none;">普通模式</button>
-                <button class="bp-button status-item" id="bpButton" style="padding: 5px 12px; font-size: 14px; border-radius: 4px; min-width: 80px; height: auto; width: auto; border: none; display: none; align-items: center; justify-content: center;">BP模式：关闭</button>
-                <button class="character-manage-button status-item" id="characterManageButton">角色管理</button>
-                <button class="event-manage-button status-item" id="eventManageButton">事件管理</button>
-                <button class="history-button status-item" id="historyButton">历史记录</button>
-                <button class="reset-button status-item" id="resetButton">重置游戏</button>
-            </div>
-        </div>
-        
-        <h1>抽取角色</h1>
-        <div class="container">
-            <div class="character-box" id="box1">
-                <img class="character-image" src="" alt="" style="display: none;">
-                <div class="character-name"></div>
-            </div>
-            <div class="character-box" id="box2">
-                <img class="character-image" src="" alt="" style="display: none;">
-                <div class="character-name"></div>
-            </div>
-            <div class="character-box" id="box3">
-                <img class="character-image" src="" alt="" style="display: none;">
-                <div class="character-name"></div>
-            </div>
-            <div class="character-box" id="box4">
-                <img class="character-image" src="" alt="" style="display: none;">
-                <div class="character-name"></div>
-            </div>
-        </div>
-        <button class="start-button" id="startButton">开始抽取</button>
-        <h1>抽取事件</h1>
-        <div class="container">
-            <div class="mission-box" id="mission1">
-                <div class="mission-title"></div>
-                <div class="mission-content"></div>
-            </div>
-            <div class="mission-box" id="mission2">
-                <div class="mission-title"></div>
-                <div class="mission-content"></div>
-            </div>
-            <div class="mission-box" id="mission3">
-                <div class="mission-title"></div>
-                <div class="mission-content"></div>
-            </div>
-            <div class="mission-box" id="mission4">
-                <div class="mission-title"></div>
-                <div class="mission-content"></div>
-            </div>
-        </div>
-        <div class="selected-hard-mission" id="selectedHardMission" style="display: none;">
-            <div class="mission-title"></div>
-            <div class="mission-content"></div>
-        </div>
-        <div class="button-container">
-            <button class="start-button" id="missionButton">抽取事件</button>
-            <button class="hard-button" id="hardModeButton">不够牢！</button>
-        </div>
-
-        <div class="rules-container">
-            <h2>游戏规则</h2>
-            <div class="rules-content">
-                <ul>
-                   <h3>角色</h3> 
-                    <li>角色按照选择的bp模式进行随机抽取，碰到没有的角色跟地主说，重新抽取角色到有为止。</li>
-                    <li>通过事件更换的角色不bp</li>
-                   <h3>事件</h3>   
-                    <li>初始获得3次可重抽事件机会</li>                  
-                    <li>每轮抽取完个人事件可点击"不够牢"3选1抽取团体事件</li>
-                    <li>全体事件与个人事件冲突情况，全体事件优先级大于个人事件。</li>
-                    <li>抽取每个事件会随机给予或扣除重抽事件的机会。
-                        <span id="viewProbabilityText" style="color: blue; text-decoration: underline; cursor: pointer;">查看概率</span>
-                        <span id="probabilityPopup" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
-                            每个事件的抽取有 5% 概率触发"重抽次数+1"或"重抽次数-1"(各 50% 概率)，未触发时概率每次增加 5%，触发后重置为 5%，若连着出现两次 -1，则下一次出现必定为 +1。四人共享这个概率。
-                        </span>
-                    </li>
-                    <li>重抽事件机会可供全队重抽个人事件，共享使用次数，可保留，需要自己记录一下。</li>
-                    <h3>测试版，地主归最终解释权所有(shi de)。</h3>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- 弹窗结构 -->
-    <div class="overlay" id="eventOverlay" style="display: none;"></div>
-    
-    <!-- 设置面板 -->
-    <div class="event-popup" id="settingsPopup" style="display: none; max-width: 400px;">
-        <button class="close-popup-button" id="closeSettingsPopup">✕</button>
-        <h3 style="text-align:center;">设置</h3>
-        <div style="display:flex;justify-content:center;gap:10px;margin-top:20px;margin-bottom:20px;">
-            <button id="openCharacterManage" class="start-button" style="padding:10px 20px;font-size:16px;">角色管理</button>
-            <button id="openEventManage" class="start-button" style="padding:10px 20px;font-size:16px;">事件管理</button>
-        </div>
-    </div>
-    
-    <div class="event-popup" id="eventPopup" style="display: none;">
-        <button class="close-popup-button" id="closeEventPopup">✕</button>
-        <div class="popup-header">
-            <button class="toggle-button" id="toggleEventsButton">显示团体任务</button>
-        </div>
-        <div class="popup-content" id="personalEvents" style="display: block;">
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 5px;">
-                <button class="add-event-button" id="addPersonalEventButton">添加事件</button>
-            </div>
-            <table class="event-table">
-                <thead>
-                        <h6 style="font-size: 15px; color: gray; text-align: center;">
-                            主持游戏时地主的更改会应用到所有人，至少启用4个否则会影响个人事件的正常抽取。
-                        </h6>
-                    <tr>
-                        <th>启用</th>
-                        <th>事件标题</th>
-                        <th>事件内容</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody id="personalEventsTable">
-                    <!-- 个人任务内容将通过 JavaScript 动态填充 -->
-                </tbody>
-            </table>
-        </div>
-        <div class="popup-content" id="teamEvents" style="display: none;">
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 5px;">
-                <button class="add-event-button" id="addTeamEventButton">添加事件</button>
-            </div>
-            <table class="event-table">
-                <thead>
-                        <h6 style="font-size: 15px; color: gray; text-align: center;">
-                            主持游戏时地主的更改会应用到所有人，至少启用3个否则会影响团队事件的正常抽取。
-                        </h6>
-                    <tr>
-                        <th>启用</th>
-                        <th>事件标题</th>
-                        <th>事件内容</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody id="teamEventsTable">
-                    <!-- 团体任务内容将通过 JavaScript 动态填充 -->
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <!-- 编辑弹窗 -->
-    <div class="edit-popup" id="editPopup" style="display: none;">
-        <h3>编辑事件</h3>
-        <input type="text" id="editTitle" placeholder="事件标题">
-        <textarea id="editContent" placeholder="事件内容"></textarea>
-        <div class="edit-popup-buttons">
-            <button class="cancel-edit-button" id="cancelEdit">取消</button>
-            <button class="save-button" id="saveEdit">保存</button>
-        </div>
-    </div>
-
-    <!-- 角色管理弹窗 -->
-    <div class="overlay" id="characterOverlay" style="display: none;"></div>
-    <div class="event-popup" id="characterPopup" style="display: none;">
-        <button class="close-popup-button" id="closeCharacterPopup">✕</button>
-        <h3 style="text-align: center; margin-bottom: 20px;">角色管理</h3>
-        <div class="popup-content" id="charactersContent" style="display: block;">
-            <h6 style="font-size: 15px; color: gray; text-align: center; margin-bottom: 10px;">
-                禁用角色后将不会在抽取中出现。主持游戏时的更改会应用到所有人。
-            </h6>
-            <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 10px;">
-                <select id="elementFilter" style="padding: 5px 10px; font-size: 15px;"></select>
-                <select id="weaponFilter" style="padding: 5px 10px; font-size: 15px;"></select>
-            </div>
-            <div id="charactersContainer" class="characters-grid">
-                <!-- 角色内容将通过 JavaScript 动态填充 -->
-            </div>
-        </div>
-    </div>
-
-    <!-- 加入房间自定义弹窗 -->
-    <div class="overlay" id="joinRoomOverlay" style="display: none;"></div>
-    <div class="event-popup" id="joinRoomPopup" style="display: none; max-width: 320px;">
-        <h3 style="text-align:center;">加入房间</h3>
-        <input id="joinRoomInput" type="text" placeholder="请输入房间代码" style="width:90%;margin:10px auto;display:block;padding:8px 10px;font-size:16px;">
-        <div style="display:flex;justify-content:center;gap:10px;margin-top:10px;">
-            <button id="joinRoomConfirm" class="start-button" style="padding:6px 20px;font-size:16px;">加入</button>
-            <button id="joinRoomCancel" class="start-button" style="background:#aaa;padding:6px 20px;font-size:16px;">取消</button>
-        </div>
-    </div>
-
-    <!-- 主持房间自定义弹窗 -->
-    <div class="overlay" id="hostRoomOverlay" style="display: none;"></div>
-    <div class="event-popup" id="hostRoomPopup" style="display: none; max-width: 320px;">
-        <h3 style="text-align:center;">主持房间</h3>
-        <div style="padding: 10px 0; text-align: center; color: #666; font-size: 15px;">点击下方按钮创建新房间，成为地主</div>
-        <div style="display:flex;justify-content:center;gap:10px;margin-top:10px;">
-            <button id="hostRoomConfirm" class="start-button" style="padding:6px 20px;font-size:16px;">创建</button>
-            <button id="hostRoomCancel" class="start-button" style="background:#aaa;padding:6px 20px;font-size:16px;">取消</button>
-        </div>
-    </div>
-    <!-- 引入角色数据JS文件 -->
-    <script src="characters.js"></script>
-    <script src="npc.js"></script>
-    <script src="mission.js"></script>
-    <script src="hardmission.js"></script>
-    <script src="multiplayer.js"></script>
-    <script src="character-manage.js"></script>
-    <script src="app.js"></script>
-    <script src="mission-app.js"></script>
-    <script src="hard-mission-app.js"></script>
-
-    <!-- 页脚署名 -->
-</body>
-<footer class="footer">
-    <p>随机角色事件生成器 </p>
-    <p>原@虾仁不眨眼happy-car.netlify.app的个性化修改版 </p>
-    <p><a href="https://github.com/1026343849/hutaocar" target="_blank">项目地址@GitHub</a></p>
-    <br>
-    <a href="wangsheng/index.html" id="subpage-link" style="display: block; width: fit-content; margin: 0 auto;">
-        <img src="https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png" style="width: auto; height: 8em; cursor: pointer; transition: transform 0.3s ease; display: block;">
-    </a>
-</footer>
-
-<style>
-    #subpage-link {
-        text-decoration: none;
-        display: block;
-    }
-    
-    #subpage-link img:hover {
-        transform: scale(1.1);
-    }
-    
-    #subpage-link img {
-        animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-        0% {
-            transform: scale(1);
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>原神锄地</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
         }
-        50% {
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #ca3e47;
+            margin-bottom: 30px;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+        .game-button {
+            padding: 15px 25px;
+            font-size: 18px;
+            background-color: #ca3e47;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+            width: 95%;
+            max-width: 600px;
+            white-space: nowrap;
+        }
+        .game-button:hover {
+            background-color: #b02a32;
             transform: scale(1.05);
         }
-        100% {
-            transform: scale(1);
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #666;
         }
-    }
-</style>
-</html>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>游戏选择</h1>
+        <div class="button-container">
+            <button class="game-button" onclick="window.location.href='suiji/index.html'">
+                原神锄地随机事件角色生成器
+            </button>
+            <button class="game-button" onclick="window.location.href='wangsheng/index.html'">
+                往生渡厄·幽冥巡游
+            </button>
+        </div>
+        <div class="footer">
+            <p>点击上方按钮选择要进入的游戏</p>
+        </div>
+    </div>
+</body>
+</html> 
