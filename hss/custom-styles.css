@@ -21,7 +21,7 @@
 .mission-box.with-content {
     width: 90%;
     max-width: 600px;
-    padding: 20px 20px 20px 65px;
+    padding: 20px 20px 20px 70px;
     background-color: white;
     box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     border-radius: 10px;
@@ -39,8 +39,7 @@
     text-align: center;
     padding-bottom: 8px;
     border-bottom: 2px solid #f0f0f0;
-    padding-left: 0;
-    padding-right: 0;
+    position: relative;
 }
 
 /* 事件内容样式 */
@@ -83,4 +82,5 @@
     box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     z-index: 2;
     border: 2px solid white;
+    pointer-events: none; /* 确保不会干扰点击事件 */
 } 

@@ -347,6 +347,9 @@ h1 {
     margin-bottom: 15px;
     color: #2c3e50;
     transition: color 0.3s;
+    padding: 0 30px; /* 左右增加内边距，为badge留出空间 */
+    width: calc(100% - 60px); /* 减去左右内边距的宽度 */
+    box-sizing: border-box;
 }
 
 .mission-content {
@@ -1402,4 +1405,29 @@ input[type="checkbox"] {
 .event-manage-button.status-item:hover {
     background-color: #e67e22;
     transform: none;
+}
+
+/* 事件编号标记样式 */
+.event-number-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    z-index: 10;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    pointer-events: none; /* 确保不会干扰点击事件 */
+}
+
+/* 确保mission-box有相对定位，以便绝对定位的badge能正确显示 */
+.mission-box {
+    position: relative;
 }
