@@ -481,10 +481,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const eventOverlay = document.getElementById('eventOverlay');
     const eventPopup = document.getElementById('eventPopup');
     const closeEventPopup = document.getElementById('closeEventPopup');
-    const toggleEventsButton = document.getElementById('toggleEventsButton');
-    const personalEvents = document.getElementById('personalEvents');
     const teamEvents = document.getElementById('teamEvents');
-    const personalEventsTable = document.getElementById('personalEventsTable');
     const teamEventsTable = document.getElementById('teamEventsTable');
     const editPopup = document.getElementById('editPopup');
     const editTitle = document.getElementById('editTitle');
@@ -499,17 +496,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const openCharacterManage = document.getElementById('openCharacterManage');
     const openEventManage = document.getElementById('openEventManage');
 
-    let isShowingPersonal = true;
     let currentEditingEvent = null;
     let currentEditingType = null;
     
     // 状态栏事件管理按钮点击处理
     eventManageButton.addEventListener('click', () => {
-        populateTable(personalEventsTable, mission, 'personalEventsTable'); // 填充个人任务
         populateTable(teamEventsTable, hardmission, 'teamEventsTable'); // 填充团体任务
         eventOverlay.style.display = 'block';
         eventPopup.style.display = 'block';
-        personalEvents.style.display = 'none';
         teamEvents.style.display = 'block';
     });
     
@@ -537,10 +531,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // 打开事件管理
     openEventManage.addEventListener('click', () => {
         settingsPopup.style.display = 'none';
-        populateTable(personalEventsTable, mission, 'personalEventsTable'); // 填充个人任务
         populateTable(teamEventsTable, hardmission, 'teamEventsTable'); // 填充团体任务
         eventPopup.style.display = 'block';
-        personalEvents.style.display = 'none';
         teamEvents.style.display = 'block';
     });
 
@@ -572,7 +564,7 @@ document.addEventListener('DOMContentLoaded', function () {
             editButton.className = 'edit-button';
             editButton.onclick = () => {
                 currentEditingEvent = key;
-                currentEditingType = tableId === 'personalEventsTable' ? 'personal' : 'team';
+                currentEditingType = 'team';
                 editTitle.value = key;
                 editContent.value = tasks[key].内容;
                 editPopup.style.display = 'block';
@@ -587,10 +579,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (confirm('确定要删除该事件吗？')) {
                     delete tasks[key];
                     populateTable(table, tasks, tableId);
-                    localStorage.setItem(
-                        tableId === 'personalEventsTable' ? 'personalEvents' : 'teamEvents',
-                        JSON.stringify(tasks)
-                    );
+                    localStorage.setItem('teamEvents', JSON.stringify(tasks));
                 }
             };
             actionCell.appendChild(deleteButton);
@@ -633,14 +622,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // 添加事件按钮功能
-    document.getElementById('addPersonalEventButton').onclick = function() {
-        currentEditingEvent = null;
-        currentEditingType = 'personal';
-        editTitle.value = '';
-        editContent.value = '';
-        editPopup.style.display = 'block';
-        eventOverlay.style.zIndex = '200';
-    };
     document.getElementById('addTeamEventButton').onclick = function() {
         currentEditingEvent = null;
         currentEditingType = 'team';
@@ -660,7 +641,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const tasks = currentEditingType === 'personal' ? mission : hardmission;
+        const tasks = hardmission;
 
         // 如果标题改变了，需要删除旧的事件并添加新的事件
         if (currentEditingEvent && newTitle !== currentEditingEvent) {
@@ -671,30 +652,20 @@ document.addEventListener('DOMContentLoaded', function () {
         tasks[newTitle] = { "内容": newContent };
 
         // 重新填充表格
-        populateTable(
-            currentEditingType === 'personal' ? personalEventsTable : teamEventsTable,
-            tasks,
-            currentEditingType === 'personal' ? 'personalEventsTable' : 'teamEventsTable'
-        );
+        populateTable(teamEventsTable, tasks, 'teamEventsTable');
 
         // 保存到本地存储
-        localStorage.setItem(
-            currentEditingType === 'personal' ? 'personalEvents' : 'teamEvents',
-            JSON.stringify(tasks)
-        );
+        localStorage.setItem('teamEvents', JSON.stringify(tasks));
 
-        // 关闭编辑弹窗
+        // 关闭弹窗
         editPopup.style.display = 'none';
-        eventOverlay.style.zIndex = '199';
-        if (window.isHost === true && window.sendGameState) {
-            setTimeout(() => window.sendGameState(), 500);
-        }
+        eventOverlay.style.zIndex = '100';
     });
 
     // 取消编辑
     cancelEdit.addEventListener('click', () => {
         editPopup.style.display = 'none';
-        eventOverlay.style.zIndex = '199';
+        eventOverlay.style.zIndex = '100';
     });
 
     // 保存勾选状态
@@ -782,7 +753,6 @@ document.addEventListener('DOMContentLoaded', function () {
     startButton.addEventListener('click', displayRandomCharacters);
 
     // 初始化个人任务和团体任务表格
-    populateTable(personalEventsTable, mission, 'personalEventsTable');
     populateTable(teamEventsTable, hardmission, 'teamEventsTable');
 
     const tongModeButton = document.getElementById('tongModeButton');

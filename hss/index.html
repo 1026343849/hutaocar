@@ -129,27 +129,6 @@
         <div class="popup-header">
             <h3 style="text-align: center; margin: 10px 0;">团队事件管理</h3>
         </div>
-        <div class="popup-content" id="personalEvents" style="display: none;">
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 5px;">
-                <button class="add-event-button" id="addPersonalEventButton">添加事件</button>
-            </div>
-            <table class="event-table">
-                <thead>
-                        <h6 style="font-size: 15px; color: gray; text-align: center;">
-                            主持游戏时地主的更改会应用到所有人，至少启用4个否则会影响个人事件的正常抽取。
-                        </h6>
-                    <tr>
-                        <th>启用</th>
-                        <th>事件标题</th>
-                        <th>事件内容</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody id="personalEventsTable">
-                    <!-- 个人任务内容将通过 JavaScript 动态填充 -->
-                </tbody>
-            </table>
-        </div>
         <div class="popup-content" id="teamEvents" style="display: block;">
             <div style="display: flex; justify-content: flex-end; margin-bottom: 5px;">
                 <button class="add-event-button" id="addTeamEventButton">添加事件</button>
@@ -227,13 +206,11 @@
     <!-- 引入角色数据JS文件 -->
     <script src="characters.js"></script>
     <script src="npc.js"></script>
-    <script src="mission.js"></script>
     <script src="hardmission.js"></script>
     <script src="reset-events.js"></script>
     <script src="multiplayer.js"></script>
     <script src="character-manage.js"></script>
     <script src="app.js"></script>
-    <script src="mission-app.js"></script>
     <script src="hard-mission-app.js"></script>
     <script src="fix-events.js"></script>
 
