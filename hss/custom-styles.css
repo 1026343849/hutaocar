@@ -83,4 +83,33 @@
     z-index: 2;
     border: 2px solid white;
     pointer-events: none; /* 确保不会干扰点击事件 */
+}
+
+@media (max-width: 480px) {
+    .mission-box {
+        width: 100%;
+        max-width: 98vw;
+        min-width: 0;
+        height: auto;
+        min-height: 80px;
+        padding: 8px 4px 8px 50px; /* 左侧为编号留空间，整体padding减小 */
+        box-sizing: border-box;
+        margin: 0 auto 12px auto;
+    }
+    .mission-title {
+        font-size: 15px;
+        margin-bottom: 4px;
+        padding-bottom: 4px;
+    }
+    .mission-content {
+        font-size: 13px;
+        line-height: 1.3;
+    }
+    .event-number-badge {
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+        top: 6px;
+        left: 6px;
+    }
 } 
