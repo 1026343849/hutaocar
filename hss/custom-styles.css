@@ -14,13 +14,14 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     border-radius: 10px;
     position: relative;
+    padding: 10px;
 }
 
 /* 事件显示样式 */
 .mission-box.with-content {
     width: 90%;
     max-width: 600px;
-    padding: 20px;
+    padding: 20px 20px 20px 65px;
     background-color: white;
     box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     border-radius: 10px;
@@ -38,6 +39,8 @@
     text-align: center;
     padding-bottom: 8px;
     border-bottom: 2px solid #f0f0f0;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* 事件内容样式 */
@@ -65,18 +68,19 @@
 /* 事件编号标记样式 */
 .event-number-badge {
     position: absolute;
-    top: -10px;
-    right: -10px;
+    top: 10px;
+    left: 10px;
     background-color: #FF5722;
     color: white;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 16px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-size: 18px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
     z-index: 2;
+    border: 2px solid white;
 } 

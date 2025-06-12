@@ -84,6 +84,10 @@ document.addEventListener('DOMContentLoaded', function () {
             ws.send(JSON.stringify({ type: 'createRoom' }));
             window.isHost = true;
             if (timeCounter) timeCounter.style.display = 'block';
+            
+            // 初始化事件框样式
+            initializeEventBoxes();
+            
             closePopup();
         };
         cancelBtn.onclick = closePopup;
@@ -460,15 +464,53 @@ document.addEventListener('DOMContentLoaded', function () {
             name.textContent = character.name;
         });
 
-        // 更新事件卡片
-        state.missions.forEach((mission, index) => {
-            const box = missionBoxes[index];
-            const title = box.querySelector('.mission-title');
-            const content = box.querySelector('.mission-content');
-
-            title.textContent = mission.title;
-            content.innerHTML = mission.content; // 使用 innerHTML 恢复颜色
+        // 更新事件卡片 - 保持与fix-events.js一致的样式
+        // 先隐藏所有事件框
+        missionBoxes.forEach((box, index) => {
+            if (index > 0) {
+                box.style.display = 'none';
+            }
         });
+        
+        // 只处理第一个事件框
+        const firstMissionBox = missionBoxes[0];
+        if (firstMissionBox) {
+            const title = firstMissionBox.querySelector('.mission-title');
+            const content = firstMissionBox.querySelector('.mission-content');
+            const mission = state.missions[0];
+            
+            // 移除所有旧的事件编号标记
+            const oldBadge = firstMissionBox.querySelector('.event-number-badge');
+            if (oldBadge) {
+                firstMissionBox.removeChild(oldBadge);
+            }
+            
+            if (mission && mission.title) {
+                // 有内容时的样式
+                firstMissionBox.style.display = 'block';
+                firstMissionBox.classList.remove('empty-box');
+                firstMissionBox.classList.add('with-content');
+                
+                title.textContent = mission.title;
+                content.innerHTML = mission.content; // 使用 innerHTML 恢复颜色
+                
+                // 添加事件编号标记
+                const eventNumber = mission.title.replace(/[^0-9]/g, '');
+                if (eventNumber) {
+                    const badge = document.createElement('div');
+                    badge.textContent = eventNumber;
+                    badge.className = 'event-number-badge';
+                    firstMissionBox.appendChild(badge);
+                }
+            } else {
+                // 空白状态
+                firstMissionBox.style.display = 'block';
+                firstMissionBox.classList.add('empty-box');
+                firstMissionBox.classList.remove('with-content');
+                title.textContent = '';
+                content.innerHTML = '';
+            }
+        }
 
         // 更新困难模式事件
         const hardMissionTitle = selectedHardMission.querySelector('.mission-title');
@@ -545,6 +587,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 ws.send(JSON.stringify({ type: 'joinRoom', roomId }));
                 window.isHost = false;
                 if (timeCounter) timeCounter.style.display = 'none';
+                
+                // 初始化事件框样式
+                initializeEventBoxes();
+                
                 closePopup();
             } else {
                 input.focus();
@@ -553,4 +599,34 @@ document.addEventListener('DOMContentLoaded', function () {
         cancelBtn.onclick = closePopup;
         overlay.onclick = closePopup;
     });
+    
+    // 初始化事件框样式，确保主持游戏和加入游戏的事件框样式一致
+    function initializeEventBoxes() {
+        const missionContainer = document.getElementById('mission-container');
+        if (missionContainer) {
+            missionContainer.style.display = 'flex';
+        }
+        
+        // 设置初始状态：只显示第一个白色方框，隐藏其他方框
+        missionBoxes.forEach((box, index) => {
+            const titleElement = box.querySelector('.mission-title');
+            const contentElement = box.querySelector('.mission-content');
+            
+            if (titleElement) titleElement.textContent = '';
+            if (contentElement) contentElement.textContent = '';
+            
+            // 只显示第一个方框
+            if (index === 0) {
+                box.style.display = 'block';
+                box.classList.add('empty-box'); // 使用CSS类
+                box.classList.remove('with-content');
+            } else {
+                box.style.display = 'none';
+            }
+            
+            // 移除可能的事件编号标记
+            const badge = box.querySelector('.event-number-badge');
+            if (badge) box.removeChild(badge);
+        });
+    }
 });
