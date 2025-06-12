@@ -511,7 +511,6 @@ document.addEventListener('DOMContentLoaded', function () {
         eventPopup.style.display = 'block';
         personalEvents.style.display = 'none';
         teamEvents.style.display = 'block';
-        toggleEventsButton.textContent = '显示个人事件';
     });
     
     // 设置相关功能
@@ -543,7 +542,6 @@ document.addEventListener('DOMContentLoaded', function () {
         eventPopup.style.display = 'block';
         personalEvents.style.display = 'none';
         teamEvents.style.display = 'block';
-        toggleEventsButton.textContent = '显示个人事件';
     });
 
     // 填充任务表格
@@ -632,19 +630,6 @@ document.addEventListener('DOMContentLoaded', function () {
         eventPopup.style.display = 'none';
         settingsPopup.style.display = 'none';
         editPopup.style.display = 'none';
-    });
-
-    // 切换任务类型
-    toggleEventsButton.addEventListener('click', () => {
-        if (personalEvents.style.display === 'block') {
-            personalEvents.style.display = 'none';
-            teamEvents.style.display = 'block';
-            toggleEventsButton.textContent = '显示个人事件';
-        } else {
-            personalEvents.style.display = 'block';
-            teamEvents.style.display = 'none';
-            toggleEventsButton.textContent = '显示团体事件';
-        }
     });
 
     // 添加事件按钮功能
