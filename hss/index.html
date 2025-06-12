@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>hutaocar</title>
+    <title>方位过三关</title>
     <link rel="icon" href="https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="hardmode.css"> 
@@ -18,7 +18,7 @@
             <img src="https://upload-bbs.miyoushe.com/upload/2024/05/10/404686886/17350b7b4b6f4c5af3d5d5bcc4a52250_6220852643654440217.png"  
                  style="width: auto; height: 8em;">
         </div>
-        <h1>叫地主？</h1>
+        <h1>方位过三关</h1>
         <button class="start-button" id="hostGameButton">主持游戏</button>
         <button class="start-button" id="joinGameButton">加入游戏</button>
         <div id="connectionStatus" style="margin-top: 10px; font-size: 14px; color: rgb(255, 187, 0); text-align: center;">
@@ -106,22 +106,7 @@
         <div class="rules-container">
             <h2>游戏规则</h2>
             <div class="rules-content">
-                <ul>
-                   <h3>角色</h3> 
-                    <li>角色按照选择的bp模式进行随机抽取，碰到没有的角色跟地主说，重新抽取角色到有为止。</li>
-                    <li>通过事件更换的角色不bp</li>
-                   <h3>事件</h3>   
-                    <li>初始获得3次可重抽事件机会</li>                  
-                    <li>点击"抽取事件"直接抽取团队事件</li>
-                    <li>抽取每个事件会随机给予或扣除重抽事件的机会。
-                        <span id="viewProbabilityText" style="color: blue; text-decoration: underline; cursor: pointer;">查看概率</span>
-                        <span id="probabilityPopup" style="display: none; position: absolute; background: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);">
-                            每个事件的抽取有 5% 概率触发"重抽次数+1"或"重抽次数-1"(各 50% 概率)，未触发时概率每次增加 5%，触发后重置为 5%，若连着出现两次 -1，则下一次出现必定为 +1。四人共享这个概率。
-                        </span>
-                    </li>
-                    <li>重抽事件机会可供全队重抽团队事件，共享使用次数，可保留，需要自己记录一下。</li>
-                    <h3>测试版，地主归最终解释权所有(shi de)。</h3>
-                </ul>
+                <img src="rules.png" alt="游戏规则" style="width: 100%; max-width: 800px; margin: 0 auto; display: block;">
             </div>
         </div>
     </div>
@@ -255,12 +240,12 @@
     <!-- 页脚署名 -->
 </body>
 <footer class="footer">
-    <p方位过三关 </p>
-    <p>百岁珊倾情指导，手把手教你单通（嘻嘻） </p>
+    <p>方位过三关</p>
+    <p>百岁珊倾情指导，手把手教你单通（嘻嘻）</p>
     <p><a href="https://github.com/1026343849/hutaocar" target="_blank">项目地址@GitHub</a></p>
     <br>
     <a href="../wangsheng/index.html" id="subpage-link" style="display: block; width: fit-content; margin: 0 auto;">
-        <img src="https://bbs-static.miyoushe.com/static/2025/01/24/0de520d2882aa28ee81ceb274cc44d16_6069071655632876737.png" style="width: auto; height: 8em; cursor: pointer; transition: transform 0.3s ease; display: block;">
+        <img src="https://upload-bbs.miyoushe.com/upload/2022/12/15/4411d82af41c70d105b4ef3f89472fc7_1413322443517996859.png" style="width: auto; height: 8em; cursor: pointer; transition: transform 0.3s ease; display: block;">
     </a>
 </footer>
 
