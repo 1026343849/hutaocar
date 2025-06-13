@@ -160,8 +160,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // ================= 抽取角色 =================
     function displayRandomCharacters() {
         const now = Date.now(); // 当前时间戳
-        let roundTime = Math.floor((now - gameState.lastRoundTime) / 1000);
-
+        let roundTime = 0;
+        
+        // 如果不是第一轮，计算上一轮的用时并更新
+        if (gameState.isGameStarted && gameState.roundCounter > 0) {
+            roundTime = Math.floor((now - gameState.lastRoundTime) / 1000);
+            // 更新上一轮的用时
+            if (window.historyData.length > 0) {
+                window.historyData[window.historyData.length - 1].roundTime = roundTime;
+            }
+            gameState.totalTime += roundTime;
+        }
+        
         if (!gameState.isGameStarted) {
             gameState.isGameStarted = true;
             gameState.startTime = now; // 记录游戏开始时间
@@ -184,13 +194,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 const timeCounter = document.getElementById('timeCounter');
                 timeCounter.textContent = `总用时：${formatTime(totalElapsed)} | 本轮用时：${formatTime(roundElapsed)}`;
             }, 1000); // 每秒更新一次
-            window.lastRoundPlayers = null; // 初始化
-        } else {
-            // 第二轮及以后，push上一轮的历史
-            if (window.lastRoundPlayers) {
-                window.historyData.push({ roundTime, players: window.lastRoundPlayers });
-                gameState.totalTime += roundTime;
-            }
         }
         
         // 无论是否是首轮，都确保BP模式显示是最新的
@@ -279,8 +282,15 @@ document.addEventListener('DOMContentLoaded', function () {
         // 保存本轮标注索引供同步
         window.lastTongTagIndexes = tongTagIndexes;
 
-        // 保存本轮玩家数据，供下次push
+        // 保存本轮玩家数据
         window.lastRoundPlayers = roundPlayers;
+        
+        // 添加当前轮的历史记录，当前轮的roundTime标记为null，表示"进行中"
+        window.historyData.push({ 
+            roundTime: null, 
+            players: roundPlayers 
+        });
+        
         gameState.lastRoundTime = now; // 更新上一轮时间
 
         // 如果是主持模式，同步游戏状态
@@ -433,8 +443,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 row.appendChild(roundCell);
 
                 const timeCell = document.createElement('td');
-                // 优先使用同步过来的roundTime
-                timeCell.textContent = formatTime(round.roundTime || 0); // 使用格式化时间
+                // 如果roundTime为null，显示"进行中"
+                if (round.roundTime === null) {
+                    timeCell.textContent = '进行中';
+                    timeCell.style.color = 'blue';
+                    timeCell.style.fontWeight = 'bold';
+                } else {
+                    // 优先使用同步过来的roundTime
+                    timeCell.textContent = formatTime(round.roundTime || 0); // 使用格式化时间
+                }
                 timeCell.style.border = '1px solid #ddd';
                 timeCell.style.padding = '8px';
                 row.appendChild(timeCell);
