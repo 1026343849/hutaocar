@@ -3,63 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>原神锄地</title>
+    <title>胡桃锄地</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap');
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'ZCOOL XiaoWei', Arial, sans-serif;
             text-align: center;
-            background-color: #f5f5f5;
+            background-color: #ffffff;
             color: #333;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             margin: 0;
             padding: 0;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
         }
+        
+        .butterfly {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            opacity: 0.7;
+            z-index: -1;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .butterfly:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; }
+        .butterfly:nth-child(2) { top: 25%; right: 15%; animation-delay: 2s; }
+        .butterfly:nth-child(3) { bottom: 20%; left: 15%; animation-delay: 1s; }
+        .butterfly:nth-child(4) { bottom: 10%; right: 20%; animation-delay: 3s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(20px, -15px) rotate(5deg); }
+            50% { transform: translate(0, -25px) rotate(-5deg); }
+            75% { transform: translate(-20px, -15px) rotate(5deg); }
+        }
+        
+        .main-title {
+            color: #ff5555;
+            font-size: 48px;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: 2px;
+            position: relative;
+            text-decoration: none;
+            border-bottom: none;
+        }
+        
+        .sub-title {
+            color: #ff5555;
+            font-size: 18px;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        
         .container {
             max-width: 700px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 30px;
             background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 40, 40, 0.1);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, #ff5555, transparent);
+        }
+        
+        .container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, #ff5555, transparent);
+        }
+        
         h1 {
-            color: #ca3e47;
+            color: #ff5555;
             margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
         }
+        
+        /* 只对容器内的h1添加下划线效果，排除main-title */
+        .container h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            width: 60%;
+            height: 2px;
+            background-color: #ff5555;
+            transform: translateX(-50%);
+        }
+        
+        /* 确保main-title不会有下划线 */
+        .main-title::after {
+            display: none;
+        }
+        
         .button-container {
             display: flex;
             flex-direction: column;
             gap: 20px;
             align-items: center;
         }
+        
         .game-button {
             padding: 15px 25px;
             font-size: 18px;
-            background-color: #ca3e47;
+            background-color: #ff4040;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: transform 0.3s, background-color 0.3s;
+            transition: all 0.3s ease;
             width: 95%;
             max-width: 600px;
             white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 40, 40, 0.3);
         }
+        
+        .game-button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 20%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(30deg);
+            transition: all 0.6s ease;
+        }
+        
         .game-button:hover {
-            background-color: #b02a32;
-            transform: scale(1.05);
+            background-color: #ff2020;
+            transform: translateY(-5px);
+            box-shadow: 0 7px 20px rgba(255, 40, 40, 0.4);
         }
+        
+        .game-button:hover::after {
+            left: 120%;
+        }
+        
         .footer {
             margin-top: 40px;
             font-size: 14px;
-            color: #666;
+            color: #aaa;
+        }
+        
+        .hutao-logo {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            width: 100px;
+            height: auto;
+            opacity: 0.5;
+        }
+        
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 36px;
+            }
+            
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+            
+            .hutao-logo {
+                width: 70px;
+                bottom: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+    <div class="butterfly"></div>
+    
+    <h1 class="main-title">胡桃锄地</h1>
+    <div class="sub-title">hutaocar.cn</div>
     <div class="container">
         <h1>游戏选择</h1>
         <div class="button-container">
