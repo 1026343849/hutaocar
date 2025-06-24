@@ -9,8 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const elementFilter = document.getElementById('elementFilter');
     const weaponFilter = document.getElementById('weaponFilter');
     
-    // 存储角色启用状态的对象
-    window.characterStates = JSON.parse(localStorage.getItem('characterStates')) || {};
+    // 确定当前是哪个系统，根据URL判断
+    const isSuiji = window.location.href.includes('suiji');
+    const isHss = window.location.href.includes('hss');
+    const storageKeyPrefix = isSuiji ? 'suiji_' : (isHss ? 'hss_' : '');
+    
+    // 存储角色启用状态的对象，使用不同的键名前缀
+    window.characterStates = JSON.parse(localStorage.getItem(storageKeyPrefix + 'characterStates')) || {};
     
     // 创建公共初始化函数，供设置面板中的角色管理按钮使用
     window.initCharacterManagement = function() {
@@ -140,9 +145,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // 保存角色状态到本地存储
+    // 保存角色状态到本地存储，使用不同的键名前缀
     function saveCharacterStates() {
-        localStorage.setItem('characterStates', JSON.stringify(window.characterStates));
+        localStorage.setItem(storageKeyPrefix + 'characterStates', JSON.stringify(window.characterStates));
     }
     
     // 同步角色状态到其他玩家（多人游戏模式）
