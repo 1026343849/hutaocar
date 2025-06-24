@@ -179,6 +179,55 @@
             opacity: 0.5;
         }
         
+        /* 更新公告样式 */
+        .update-notice {
+            max-width: 700px;
+            margin: 20px auto 0;
+            background-color: #fff9f9;
+            border-left: 4px solid #ff5555;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(255, 85, 85, 0.15);
+            text-align: left;
+        }
+        
+        .update-notice h3 {
+            color: #ff5555;
+            margin-top: 0;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .update-date {
+            font-size: 14px;
+            color: #888;
+            font-weight: normal;
+        }
+        
+        .update-content {
+            color: #555;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .update-content p {
+            margin: 8px 0;
+        }
+        
+        .warning {
+            color: #e65252;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .warning::before {
+            content: "⚠️";
+            margin-right: 5px;
+        }
+        
         @media (max-width: 768px) {
             .main-title {
                 font-size: 36px;
@@ -207,6 +256,7 @@
     <div class="sub-title">hutaocar.cn</div>
     <div class="container">
         <h1>游戏选择</h1>
+        
         <div class="button-container">
             <button class="game-button" onclick="window.location.href='suiji/'">
                 随机角色事件生成器
@@ -220,6 +270,15 @@
         </div>
         <div class="footer">
             <p>点击上方按钮选择要进入的游戏</p>
+        </div>
+    </div>
+    
+    <!-- 更新公告 -->
+    <div class="update-notice">
+        <h3>更新公告 <span class="update-date">2025/06/25</span></h3>
+        <div class="update-content">
+            <p>角色管理系统已重构，现在"随机角色事件生成器"和"方位过三关"共享同一个角色数据文件，但可以各自独立管理角色的启用/禁用状态。</p>
+            <p class="warning">请注意：此次更新后，之前用户对角色管理的修改将会被重置。</p>
         </div>
     </div>
 </body>
