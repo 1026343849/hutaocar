@@ -1,5 +1,11 @@
 // 角色数据
 const characterData = {
+    "奈芙尔": {
+        "头像": "https://act-upload.mihoyo.com/ys-obc/2025/10/22/6276411/eb6d91e9db4d4811a172c1477fdf4bb3_4319988213149244489.png?",
+        "元素类型": "草",
+        "武器类型": "法器",
+        "星级": "五星"
+    },
     "菲林斯": {
         "头像": "https://act-upload.mihoyo.com/ys-obc/2025/09/29/73740358/580bb3983dcd02b1deee98cbdab99f0b_3298687889284615702.png",
         "元素类型": "雷",
