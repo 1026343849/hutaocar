@@ -1,5 +1,17 @@
 // 角色数据
 const characterData = {
+    "杜林": {
+        "头像": "https://act-upload.mihoyo.com/ys-obc/2025/12/02/73740358/7adbbcee16df7088c22a9c0582f8a5e5_4392083795140305398.png",
+        "元素类型": "火",
+        "武器类型": "单手剑",
+        "星级": "五星"
+    },
+    "雅珂达": {
+        "头像": "https://act-upload.mihoyo.com/ys-obc/2025/12/02/73740358/2d8bafcf920d23e6b0307bfbb8287547_4368701227618366747.png",
+        "元素类型": "风",
+        "武器类型": "弓",
+        "星级": "四星"
+    },   
     "奇偶·女性": {
         "头像": "https://act-upload.mihoyo.com/wiki-user-upload/2025/10/22/50494840/df3bf2a57d76b889f22bc2172c0bd08b_3658525519828329949.png?",
         "元素类型": "火",
