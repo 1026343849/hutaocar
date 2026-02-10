@@ -1,9 +1,27 @@
 // 角色数据
 const characterData = {
+    "兹白": {
+        "头像": "https://act-upload.mihoyo.com/ys-obc/2026/01/30/73740358/8773a2d817419143960cb5215edeb6a6_2935420050196494979.png",
+        "元素类型": "岩",
+        "武器类型": "单手剑",
+        "星级": "五星"
+    },
+    "叶洛亚": {
+        "头像": "https://act-upload.mihoyo.com/ys-obc/2026/01/30/73740358/d68586865050e3ed28818a953f72ae91_2907815287804197436.png",
+        "元素类型": "岩",
+        "武器类型": "长枪",
+        "星级": "四星"
+    },
     "杜林": {
         "头像": "https://act-upload.mihoyo.com/ys-obc/2025/12/02/73740358/7adbbcee16df7088c22a9c0582f8a5e5_4392083795140305398.png",
         "元素类型": "火",
         "武器类型": "单手剑",
+        "星级": "五星"
+    },
+    "哥伦比娅": {
+        "头像": "https://act-upload.mihoyo.com/ys-obc/2026/01/13/73740358/b738d4adebf79c75155e489b0c1020dc_340128155982875152.png",
+        "元素类型": "水",
+        "武器类型": "法器",
         "星级": "五星"
     },
     "雅珂达": {
@@ -13,19 +31,19 @@ const characterData = {
         "星级": "四星"
     },   
     "奇偶·女性": {
-        "头像": "https://act-upload.mihoyo.com/wiki-user-upload/2025/10/22/50494840/df3bf2a57d76b889f22bc2172c0bd08b_3658525519828329949.png?",
+        "头像": "https://act-upload.mihoyo.com/wiki-user-upload/2025/10/22/50494840/df3bf2a57d76b889f22bc2172c0bd08b_3658525519828329949.png",
         "元素类型": "火",
         "武器类型": "单手剑",
         "星级": "五星"
     },    
     "奇偶·男性": {
-        "头像": "https://act-upload.mihoyo.com/wiki-user-upload/2025/10/22/50494840/7617caf2440cadbe673617c4481a62c9_1933299159986831123.png?",
+        "头像": "https://act-upload.mihoyo.com/wiki-user-upload/2025/10/22/50494840/7617caf2440cadbe673617c4481a62c9_1933299159986831123.png",
         "元素类型": "火",
         "武器类型": "单手剑",
         "星级": "五星"
     },    
     "奈芙尔": {
-        "头像": "https://act-upload.mihoyo.com/ys-obc/2025/10/22/6276411/eb6d91e9db4d4811a172c1477fdf4bb3_4319988213149244489.png?",
+        "头像": "https://act-upload.mihoyo.com/ys-obc/2025/10/22/6276411/eb6d91e9db4d4811a172c1477fdf4bb3_4319988213149244489.png",
         "元素类型": "草",
         "武器类型": "法器",
         "星级": "五星"
