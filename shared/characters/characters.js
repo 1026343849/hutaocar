@@ -1,5 +1,11 @@
 // 角色数据
 const characterData = {
+    "莉奈娅": {
+        "头像": "https://act-upload.mihoyo.com/ys-obc/2026/04/04/355491420/ceddfe12403e65f74d5b186d6b9a66e0_2781654000549353864.png",
+        "元素类型": "岩",
+        "武器类型": "弓",
+        "星级": "五星"
+    },
     "法尔伽": {
         "头像": "https://act-upload.mihoyo.com/ys-obc/2026/02/25/73740358/520ce98cab494015bb50e5093cae9182_1437955682660801600.png",
         "元素类型": "风",
