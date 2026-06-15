@@ -1,5 +1,11 @@
 // 角色数据
 const characterData = {
+    "洛恩": {
+        "头像": "https://act-upload.mihoyo.com/ys-obc/2026/06/08/355491420/edb74e0820561a466f57451ea1d17e7d_8886702396248663730.png",
+        "元素类型": "冰风",
+        "武器类型": "长枪",
+        "星级": "五星"
+    },
     "布伦妮": {
         "头像": "https://act-upload.mihoyo.com/ys-obc/2026/05/20/355491420/74aed1aa8dbcf9161899ec11f9ff7158_7560159235777495699.png",
         "元素类型": "风",
